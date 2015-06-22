@@ -34,7 +34,10 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public function bootstrap($app)
     {
         $array = array_merge([
-            // pass
+            'nineinchnick\sync\models\Parser' => '/sync/parser',
+            'nineinchnick\sync\models\Transaction' => '/sync/transaction',
+            'nineinchnick\sync\models\File' => '/sync/file',
+            'nineinchnick\sync\models\Message' => '/sync/message',
         ], $app->crudModelsMap->data);
         $app->crudModelsMap->data = $array;
 
