@@ -6,9 +6,29 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
     public $controllerNamespace = 'nineinchnick\sync\controllers';
 
-    public $defaultRoute = '';
+    public $defaultRoute = 'transaction';
 
     public $controllerMap = [
+        'parser' => [
+            'class' => 'netis\utils\crud\ActiveController',
+            'modelClass' => 'nineinchnick\sync\models\Parser',
+            'searchModelClass' => 'nineinchnick\sync\models\search\Parser',
+        ],
+        'transaction' => [
+            'class' => 'netis\utils\crud\ActiveController',
+            'modelClass' => 'nineinchnick\sync\models\Transaction',
+            'searchModelClass' => 'nineinchnick\sync\models\search\Transaction',
+        ],
+        'file' => [
+            'class' => 'netis\utils\crud\ActiveController',
+            'modelClass' => 'nineinchnick\sync\models\File',
+            'searchModelClass' => 'nineinchnick\sync\models\search\File',
+        ],
+        'message' => [
+            'class' => 'netis\utils\crud\ActiveController',
+            'modelClass' => 'nineinchnick\sync\models\Message',
+            'searchModelClass' => 'nineinchnick\sync\models\search\Message',
+        ],
     ];
 
     public function bootstrap($app)

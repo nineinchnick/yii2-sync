@@ -17,8 +17,8 @@ use nineinchnick\sync\models\query\ParserQuery;
  * @property string $updated_on
  * @property string $created_on
  *
- * @property User $author
- * @property User $editor
+ * @property \app\models\User $author
+ * @property \app\models\User $editor
  * @property Transaction[] $transactions
  */
 class Parser extends \netis\utils\crud\ActiveRecord
@@ -107,7 +107,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id'])->inverseOf('parsers');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'author_id']);
     }
 
     /**
@@ -115,7 +115,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
      */
     public function getEditor()
     {
-        return $this->hasOne(User::className(), ['id' => 'editor_id'])->inverseOf('parsers0');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'editor_id']);
     }
 
     /**

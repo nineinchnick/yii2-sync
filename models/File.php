@@ -28,10 +28,10 @@ use nineinchnick\sync\models\query\FileQuery;
  * @property string $updated_on
  * @property string $created_on
  *
- * @property User $author
- * @property User $editor
+ * @property \app\models\User $author
+ * @property \app\models\User $editor
  * @property File $request
- * @property File[] $files
+ * @property File $response
  * @property Transaction $transaction
  * @property Message[] $messages
  */
@@ -51,13 +51,13 @@ class File extends \netis\utils\crud\ActiveRecord
     public function rules()
     {
         return [
-            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'size', 'content', 'mimetype', 'hash', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'trim'],
-            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'size', 'content', 'mimetype', 'hash', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'default'],
-            [['transaction_id', 'url', 'filename', 'size', 'content'], 'required'],
+            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'trim'],
+            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'default'],
+            [['transaction_id', 'url', 'filename'], 'required'],
             [['sent_on', 'processed_on', 'acknowledged_on'], 'filter', 'filter' => [Yii::$app->formatter, 'filterDatetime']],
             [['sent_on', 'processed_on', 'acknowledged_on'], 'date', 'format' => 'yyyy-MM-dd HH:mm:ss'],
-            [['transaction_id', 'request_id', 'number', 'size', 'items_count', 'processed_count'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF],
-            [['url', 'filename', 'mimetype', 'hash'], 'string', 'max' => 255]
+            [['transaction_id', 'request_id', 'number', 'items_count', 'processed_count'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF],
+            [['url', 'filename'], 'string', 'max' => 255]
         ];
     }
 
@@ -127,7 +127,7 @@ class File extends \netis\utils\crud\ActiveRecord
             'author',
             'editor',
             'request',
-            'files',
+            'response',
             'transaction',
             'messages',
         ];
@@ -138,7 +138,7 @@ class File extends \netis\utils\crud\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id'])->inverseOf('files');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'author_id']);
     }
 
     /**
@@ -146,7 +146,7 @@ class File extends \netis\utils\crud\ActiveRecord
      */
     public function getEditor()
     {
-        return $this->hasOne(User::className(), ['id' => 'editor_id'])->inverseOf('files0');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'editor_id']);
     }
 
     /**
@@ -154,15 +154,15 @@ class File extends \netis\utils\crud\ActiveRecord
      */
     public function getRequest()
     {
-        return $this->hasOne(File::className(), ['id' => 'request_id'])->inverseOf('files');
+        return $this->hasOne(File::className(), ['id' => 'request_id'])->inverseOf('response');
     }
 
     /**
      * @return FileQuery
      */
-    public function getFiles()
+    public function getResponse()
     {
-        return $this->hasMany(File::className(), ['request_id' => 'id'])->inverseOf('request');
+        return $this->hasOne(File::className(), ['request_id' => 'id'])->inverseOf('request');
     }
 
     /**

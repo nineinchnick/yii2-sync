@@ -18,8 +18,8 @@ use nineinchnick\sync\models\query\TransactionQuery;
  *
  * @property File[] $files
  * @property Message[] $messages
- * @property User $author
- * @property User $editor
+ * @property \app\models\User $author
+ * @property \app\models\User $editor
  * @property Parser $parser
  */
 class Transaction extends \netis\utils\crud\ActiveRecord
@@ -127,7 +127,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id'])->inverseOf('transactions');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'author_id']);
     }
 
     /**
@@ -135,7 +135,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
      */
     public function getEditor()
     {
-        return $this->hasOne(User::className(), ['id' => 'editor_id'])->inverseOf('transactions0');
+        return $this->hasOne(\app\models\User::className(), ['id' => 'editor_id']);
     }
 
     /**

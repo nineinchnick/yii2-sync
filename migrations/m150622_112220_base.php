@@ -52,6 +52,7 @@ class m150622_112220_base extends Migration
             'editor_id'      => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
             'updated_on'     => 'timestamp',
             'created_on'     => 'timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            'UNIQUE (request_id)',
         ]);
         $this->execute("COMMENT ON COLUMN $this->schemaName.{{%files}}.request_id IS "
             . "'null if request, not null if response'");
