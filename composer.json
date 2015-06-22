@@ -1,0 +1,29 @@
+{
+    "name": "nineinchnick/yii2-sync",
+    "description": "A module for apps based on the Yii 2 framework for tracking data exchange with remote systems.",
+    "license": "MIT",
+    "type": "yii2-extension",
+    "support": {
+        "issues": "https://github.com/nineinchnick/yii2-sync/issues",
+        "source": "https://github.com/nineinchnick/yii2-sync"
+    },
+    "authors": [
+        {
+            "name": "Jan Waś",
+            "email": "janek.jan@gmail.com",
+            "homepage": "http://niix.pl/"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=3.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "nineinchnick\\sync\\": ""
+        }
+    }
+}
