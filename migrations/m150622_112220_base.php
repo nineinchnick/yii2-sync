@@ -15,9 +15,11 @@ class m150622_112220_base extends Migration
 
         $this->createTable("{$this->schemaName}.{{%parsers}}", [
             'id'             => 'pk',
+            'name'           => 'string NOT NULL',
             'class'          => 'string NOT NULL',
             'parser_class'   => 'string NOT NULL',
             'parser_options' => 'text',
+            'is_disabled'    => 'boolean NOT NULL DEFAULT FALSE',
             'author_id'      => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
             'editor_id'      => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
             'updated_on'     => 'timestamp',
