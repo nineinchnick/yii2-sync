@@ -4,6 +4,7 @@ namespace nineinchnick\sync\models;
 
 use Yii;
 use nineinchnick\sync\models\query\TransactionQuery;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%sync.transactions}}".
@@ -25,6 +26,11 @@ use nineinchnick\sync\models\query\TransactionQuery;
 class Transaction extends \netis\utils\crud\ActiveRecord
 {
     /**
+     * @var UploadedFile[]
+     */
+    public $uploadedFiles;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -43,7 +49,13 @@ class Transaction extends \netis\utils\crud\ActiveRecord
             [['parser_id'], 'required'],
             [['is_import'], 'filter', 'filter' => [Yii::$app->formatter, 'filterBoolean']],
             [['parser_id'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF],
-            [['is_import'], 'boolean']
+            [['is_import'], 'boolean'],
+            [
+                ['uploadedFiles'], 'file', 'skipOnEmpty' => true, 'maxFiles' => 10,
+                'when' => function ($model) {
+                    return !Yii::$app->request->getIsAjax();
+                },
+            ],
         ];
     }
 
@@ -60,6 +72,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
             'editor_id' => Yii::t('nineinchnick/sync/models', 'Editor ID'),
             'updated_on' => Yii::t('nineinchnick/sync/models', 'Updated On'),
             'created_on' => Yii::t('nineinchnick/sync/models', 'Created On'),
+            'uploadedFiles' => Yii::t('nineinchnick/sync/models', 'Upload files'),
         ];
     }
 

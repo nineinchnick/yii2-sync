@@ -4,6 +4,7 @@ namespace nineinchnick\sync\models;
 
 use Yii;
 use nineinchnick\sync\models\query\ParserQuery;
+use yii\base\NotSupportedException;
 
 /**
  * This is the model class for table "{{%sync.parsers}}".
@@ -42,6 +43,16 @@ class Parser extends \netis\utils\crud\ActiveRecord
             [['name', 'class', 'parser_class', 'parser_options'], 'trim'],
             [['name', 'class', 'parser_class', 'parser_options'], 'default'],
             [['name', 'class', 'parser_class'], 'required'],
+            [['class'], function ($attribute, $params) {
+                if (!class_exists($this->$attribute) || !(new $this->$attribute) instanceof \yii\db\ActiveRecord) {
+                    $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Class must be a valid AR model class.'));
+                }
+            }],
+            [['parser_class'], function ($attribute, $params) {
+                if (!class_exists($this->$attribute) || !(new $this->$attribute) instanceof self) {
+                    $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Parser class must extend from Parser model.'));
+                }
+            }],
             [['name', 'class', 'parser_class'], 'string', 'max' => 255]
         ];
     }
@@ -141,5 +152,45 @@ class Parser extends \netis\utils\crud\ActiveRecord
     public static function find()
     {
         return new ParserQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function instantiate($row)
+    {
+        return new $row['parser_class'];
+    }
+
+    /**
+     * Either uploads a prepared file or downloads next file from a remote service.
+     * Returns bool false if no files are available.
+     * @param File $file
+     * @return File|bool bool true when uploading, bool false when downloading and no files are available
+     * @throws NotSupportedException
+     */
+    public function transfer($file = null)
+    {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * Parses the files contents.
+     * @param $file
+     * @throws NotSupportedException
+     */
+    public function process($file)
+    {
+        throw new NotSupportedException();
+    }
+
+    /**
+     * Acknowledges the processing of a downloaded file in a remote service.
+     * @param $file
+     * @throws NotSupportedException
+     */
+    public function acknowledge($file)
+    {
+        throw new NotSupportedException();
     }
 }

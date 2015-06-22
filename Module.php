@@ -18,6 +18,9 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'class' => 'netis\utils\crud\ActiveController',
             'modelClass' => 'nineinchnick\sync\models\Transaction',
             'searchModelClass' => 'nineinchnick\sync\models\search\Transaction',
+            'actionsClassMap' => [
+                'update' => 'nineinchnick\sync\crud\TransactionUpdateAction',
+            ],
         ],
         'file' => [
             'class' => 'netis\utils\crud\ActiveController',
