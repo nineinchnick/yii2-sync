@@ -15,11 +15,12 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'searchModelClass' => 'nineinchnick\sync\models\search\Parser',
         ],
         'transaction' => [
-            'class' => 'netis\utils\crud\ActiveController',
+            'class' => 'nineinchnick\sync\crud\TransactionController',
             'modelClass' => 'nineinchnick\sync\models\Transaction',
             'searchModelClass' => 'nineinchnick\sync\models\search\Transaction',
             'actionsClassMap' => [
                 'update' => 'nineinchnick\sync\crud\TransactionUpdateAction',
+                'process' => 'nineinchnick\sync\crud\ProcessAction',
             ],
         ],
         'file' => [
