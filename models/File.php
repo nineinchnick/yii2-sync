@@ -27,6 +27,7 @@ use nineinchnick\sync\models\query\FileQuery;
  * @property integer $editor_id
  * @property string $updated_on
  * @property string $created_on
+ * @property string $column_order
  *
  * @property \app\models\User $author
  * @property \app\models\User $editor
@@ -51,9 +52,9 @@ class File extends \netis\utils\crud\ActiveRecord
     public function rules()
     {
         return [
-            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'trim'],
-            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count'], 'default'],
-            [['transaction_id', 'url', 'filename'], 'required'],
+            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count', 'column_order'], 'trim'],
+            [['transaction_id', 'request_id', 'number', 'url', 'filename', 'sent_on', 'processed_on', 'acknowledged_on', 'items_count', 'processed_count', 'column_order'], 'default'],
+            [['transaction_id', 'url', 'filename', 'column_order'], 'required'],
             [['sent_on', 'processed_on', 'acknowledged_on'], 'filter', 'filter' => [Yii::$app->formatter, 'filterDatetime']],
             [['sent_on', 'processed_on', 'acknowledged_on'], 'date', 'format' => 'yyyy-MM-dd HH:mm:ss'],
             [['transaction_id', 'request_id', 'number', 'items_count', 'processed_count'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF],
@@ -86,6 +87,7 @@ class File extends \netis\utils\crud\ActiveRecord
             'editor_id' => Yii::t('nineinchnick/sync/models', 'Editor ID'),
             'updated_on' => Yii::t('nineinchnick/sync/models', 'Updated On'),
             'created_on' => Yii::t('nineinchnick/sync/models', 'Created On'),
+            'column_order' => Yii::t('nineinchnick/sync/models', 'Column order'),
         ];
     }
 
@@ -179,6 +181,23 @@ class File extends \netis\utils\crud\ActiveRecord
     public function getMessages()
     {
         return $this->hasMany(Message::className(), ['file_id' => 'id'])->inverseOf('file');
+    }
+
+    public function getParser() {
+        return $this->hasOne(Parser::className(), ['id' => 'parser_id']) ->via('transaction');
+    }
+
+    /**
+     * @param $parserId
+     * @return array|File|null
+     */
+    public function getLastParserFile($parserId)
+    {
+
+        $transactions = new Transaction();
+        $subquery = $transactions->find()->select(['id'])->where(['parser_id' => $parserId])->orderBy('id desc')->limit(1);
+        return $this->find()->where(['transaction_id' => $subquery])->orderBy('id desc')->one();
+
     }
 
     /**

@@ -31,6 +31,11 @@ class Transaction extends \netis\utils\crud\ActiveRecord
     public $uploadedFiles;
 
     /**
+     * @var $columnOrder
+     */
+    public $columnOrder;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -56,6 +61,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
                     return !Yii::$app->request->getIsAjax();
                 },
             ],
+            [['columnOrder'], 'safe']
         ];
     }
 
