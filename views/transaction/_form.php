@@ -30,7 +30,7 @@ $script = <<<JavaScript
     $('#column-order-div').on('change', '.column-order-checkbox', function() {
         $("#transaction-columnorder").val($("#column-order-form").serialize());
     });
-    
+
     function renderColumnOrderData() {
         $.ajax({
             url: '{$orderColumnUrl}',
