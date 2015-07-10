@@ -16,7 +16,7 @@ $items = [
 foreach ($lastColumnOrder as $name => $value) {
     $checked = !is_null($lastColumnOrder[$name]) ? 'checked=""' : '';
     $items[] = [
-        'content' => $model->getAttributeLabel($name) . '<input type="checkbox" name="' . $name . '" style="float:right" class="column-order-checkbox" ' . $checked,
+        'content' => $model->getAttributeLabel($name) . '<input type="checkbox" name="' . $name . '" style="float:right" class="column-order-checkbox" '. $checked,
     ];
 }
 ?>
@@ -26,7 +26,7 @@ foreach ($lastColumnOrder as $name => $value) {
         'items' => $items,
         'pluginEvents' => [
             'sortupdate' => 'function() {
-                $("#transaction-columnorder").val($("#column-order-form").serialize());
+                $("#configuration-columns_order").val($("#column-order-form").serialize());
             }',
         ],
     ]);

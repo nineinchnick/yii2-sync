@@ -33,6 +33,11 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'modelClass' => 'nineinchnick\sync\models\Message',
             'searchModelClass' => 'nineinchnick\sync\models\search\Message',
         ],
+        'configuration' => [
+            'class' => 'nineinchnick\sync\crud\ConfigurationController',
+            'modelClass' => 'nineinchnick\sync\models\Configuration',
+            'searchModelClass' => 'nineinchnick\sync\models\search\Configuration',
+        ]
     ];
 
     public function bootstrap($app)

@@ -45,6 +45,7 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
         }
         $number = $model->getFiles()->count();
         foreach ($model->uploadedFiles as $uploadedFile) {
+            //Null means PHPExcel::identify is different then $_excelTypes
             if (is_null($content = $this->readXls($uploadedFile))) {
                 $content = file_get_contents($uploadedFile->tempName);
             }
@@ -58,7 +59,6 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
                 'mimetype' => $uploadedFile->type,
                 'hash'     => sha1($content),
                 'sent_on'  => date('Y-m-d H:i:s'),
-                'column_order' => $model->columnOrder,
             ], false);
             $file->link('transaction', $model);
             if (!$file->save()) {
