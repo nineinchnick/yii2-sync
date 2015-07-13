@@ -9,52 +9,49 @@
 /* @var $action netis\utils\crud\UpdateAction */
 /* @var $view \netis\utils\web\View */
 
-$orderColumnUrl = \yii\helpers\Url::to(['column-order']);
-$modelId = (empty($model->id)) ? 0 : $model->id;
-//unset($fields['contractorLogo']);
-$script = <<<JavaScript
-    renderColumnOrderData($('#configuration-class').val(), '$modelId');
-    $('#configuration-class').focusout(function() {
-        renderColumnOrderData($(this).val(), 0);
-    });
-    $('#column-order-button').click(function() {
-        $('#column-order-div').toggleClass('hidden');
-    });
-    $('#column-order-div').on('change', '.column-order-checkbox', function() {
-        $("#configuration-columns_order").val($("#column-order-form").serialize());
-    });
+use yii\helpers\Html;
 
-    function renderColumnOrderData(modelClass, modelId) {
+$advancedUrl = \yii\helpers\Url::to('advanced-options');
+$scripts = <<<JavaScript
+    $('#set-advanced-options').click(function() {
         $.ajax({
-            url: '{$orderColumnUrl}',
+            url: '$advancedUrl',
             data: {
-                modelClass: modelClass,
-                modelId: modelId
+                model: $('#parserconfiguration-model_class').val(),
+                parser: $('#parserconfiguration-parser_class').val(),
             },
             success: function(data) {
-                $('#column-order-div').html(data);
-                $("#configuration-columns_order").val($("#column-order-form").serialize());
+                $('div#advanced-options').html(data);
+                $('#set-advanced-options').addClass('hidden');
             }
         });
-    }
-JavaScript;
+    });
 
-$this->registerJs($script);
-$fields[0]['columns_order'] = \yii\helpers\Html::activeHiddenInput($model, 'columns_order');
-$fields[0]['class'] = [
-    'formMethod' => 'textInput',
-    'attribute' => 'class',
-    'arguments' => [],
-];
-$fields[0]['column-order-button'] = \yii\helpers\Html::button(Yii::t('nineinchnick/sync/models', 'Change column order'), ['id' => 'column-order-button']);
-?>
-<div class="row">
-    <div class="hidden col-md-5" id="column-order-div"></div>
-</div>
-<?php
-echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . '_form.php', [
-    'model' => $model,
-    'fields' => $fields,
-    'relations' => $relations,
+    $('#parserconfiguration-model_class, #parserconfiguration-parser_class').change(function() {
+        $('div#advanced-options').html('');
+        $('#set-advanced-options').removeClass('hidden');
+        $('#parserconfiguration-parser_options').val('');
+    });
+
+    $('body').on('click', '#save-advanced-options', function() {
+        $('#advanced-options-form').yiiActiveForm('validate');
+        console.log($('#advanced-options-form').validated);
+        $('#parserconfiguration-parser_options').val($('#advanced-options-form').serialize());
+    });
+JavaScript;
+$this->registerJs($scripts);
+$fields[0]['advanced_button'] = Html::button(Yii::t('app', 'Set advanced options'), [
+    'class' => 'pull-right btn btn-success',
+    'id' => 'set-advanced-options',
 ]);
+$fields[0]['parser_options'] = Html::activeHiddenInput($model, 'parser_options');
 ?>
+<div class="col-md-6" style="margin-top: 32px">
+    <?= $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . '_form.php', [
+        'model' => $model,
+        'fields' => $fields,
+        'relations' => $relations,
+    ]); ?>
+</div>
+<div class="col-md-6" id="advanced-options">
+</div>

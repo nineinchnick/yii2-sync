@@ -26,6 +26,15 @@ use yii\base\NotSupportedException;
  */
 class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 {
+    public $length;
+    public $delimiter;
+    public $enclosure;
+    public $escape;
+
+    public $csvParserFields = ['length', 'delimiter', 'enclosure', 'escape'];
+
+    const SCENARIO_CSV_PARSER = 'csvParser';
+
     /**
      * @inheritdoc
      */
@@ -53,7 +62,9 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
                     $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Parser class must extend from Parser model.'));
                 }
             }],
-            [['name', 'model_class', 'parser_class'], 'string', 'max' => 255]
+            [['name', 'model_class', 'parser_class'], 'string', 'max' => 255],
+            [['length'], 'integer', 'on' => self::SCENARIO_CSV_PARSER],
+            [['delimiter', 'enclosure', 'escape'], 'string', 'max' => 1, 'on' => self::SCENARIO_CSV_PARSER],
         ];
     }
 
@@ -83,13 +94,13 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
                 'class' => 'netis\utils\db\LabelsBehavior',
                 'attributes' => ['name'],
                 'crudLabels' => [
-                    'default'  => Yii::t('nineinchnick/sync/models', 'Parser Configuration'),
+                    'default' => Yii::t('nineinchnick/sync/models', 'Parser Configuration'),
                     'relation' => Yii::t('nineinchnick/sync/models', 'Parser Configurations'),
-                    'index'    => Yii::t('nineinchnick/sync/models', 'Browse Parser Configurations'),
-                    'create'   => Yii::t('nineinchnick/sync/models', 'Create Parser Configuration'),
-                    'read'     => Yii::t('nineinchnick/sync/models', 'View Parser Configuration'),
-                    'update'   => Yii::t('nineinchnick/sync/models', 'Update Parser Configuration'),
-                    'delete'   => Yii::t('nineinchnick/sync/models', 'Delete Parser Configuration'),
+                    'index' => Yii::t('nineinchnick/sync/models', 'Browse Parser Configurations'),
+                    'create' => Yii::t('nineinchnick/sync/models', 'Create Parser Configuration'),
+                    'read' => Yii::t('nineinchnick/sync/models', 'View Parser Configuration'),
+                    'update' => Yii::t('nineinchnick/sync/models', 'Update Parser Configuration'),
+                    'delete' => Yii::t('nineinchnick/sync/models', 'Delete Parser Configuration'),
                 ],
             ],
             'toggable' => [
@@ -119,6 +130,14 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
             'editor',
             'transactions',
         ];
+    }
+
+    public function scenarios()
+    {
+        return array_merge(parent::scenarios(), [
+            self::SCENARIO_CSV_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape'],
+        ]);
+
     }
 
     /**
@@ -192,5 +211,33 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function acknowledge($file)
     {
         throw new NotSupportedException();
+    }
+
+    public function beforeSave($insert)
+    {
+        $parserOptions = [];
+        switch ($this->scenario) {
+            case self::SCENARIO_CSV_PARSER:
+                $fields = $this->csvParserFields;
+                break;
+            default:
+                $fields = [];
+        }
+
+        foreach ($fields as $field) {
+            $parserOptions[$field] = $this->$field;
+        }
+        $parserOptions = json_encode($parserOptions);
+        $this->parser_options = $parserOptions;
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        $parserOptions = json_decode($this->parser_options);
+        foreach($parserOptions as $option => $value) {
+            $this->$option = $value;
+        }
+        return parent::afterFind();
     }
 }

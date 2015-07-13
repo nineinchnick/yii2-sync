@@ -7,11 +7,47 @@ namespace nineinchnick\sync\crud;
 
 
 use nineinchnick\sync\models\ParserConfiguration;
+use Symfony\Component\Yaml\Parser;
 use \yii;
+use netis\utils\widgets\FormBuilder;
 
 class ParserConfigurationController extends \netis\utils\crud\ActiveController
 {
 
+
+    public function actions()
+    {
+        return array_merge(parent::actions(),
+            ['csvParser' => [
+                'class' => 'nineinchnick\sync\crud\CsvParserAction',
+            ],
+            ])
+        ;
+    }
+
+    public function actionAdvancedOptions($model, $parser)
+    {
+        Yii::$app->response->format = yii\web\Response::FORMAT_JSON;
+        $modelParserConfiguration = new ParserConfiguration();
+        $modelParserConfiguration->model_class = $model;
+        $modelParserConfiguration->parser_class = $parser;
+        if (!$modelParserConfiguration->validate(['model_class', 'parser_class'])) {
+//            return Yii::t("nineinchnick/sync/models", "Fill Model and Parser classes correctly first");
+        }
+        return $this->renderAjax('advanced_configuration', ['model' => $modelParserConfiguration]);
+    }
+
+//    public function actionCsvParser()
+//    {
+//        $model = new ParserConfiguration();
+//        $model->parser_class = $this->csvParser;
+//        $fields = FormBuilder::getFormFields($model, $this->getFields($model, 'form'), false);
+//
+//        return $this->render('csv_parser', [
+//            'model' => $model,
+//            'fields' => $fields,
+//        ]);
+//    }
 
     public function actionColumnOrder($modelClass, $modelId)
     {
