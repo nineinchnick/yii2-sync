@@ -2,6 +2,7 @@
 
 namespace nineinchnick\sync\models;
 
+//use nineinchnick\sync\models\search\ParserConfiguration;
 use Yii;
 use nineinchnick\sync\models\query\TransactionQuery;
 use yii\web\UploadedFile;
@@ -21,7 +22,7 @@ use yii\web\UploadedFile;
  * @property Message[] $messages
  * @property \app\models\User $author
  * @property \app\models\User $editor
- * @property Parser $parser
+ * @property ParserConfiguration $parserConfiguration
  */
 class Transaction extends \netis\utils\crud\ActiveRecord
 {
@@ -115,7 +116,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
             'messages',
             'author',
             'editor',
-            'parser',
+            'parserConfiguration',
         ];
     }
 
@@ -154,9 +155,9 @@ class Transaction extends \netis\utils\crud\ActiveRecord
     /**
      * @return TransactionQuery
      */
-    public function getParser()
+    public function getParserConfiguration()
     {
-        return $this->hasOne(Parser::className(), ['id' => 'parser_id'])->inverseOf('transactions');
+        return $this->hasOne(ParserConfiguration::className(), ['id' => 'parser_id'])->inverseOf('transactions');
     }
 
     /**

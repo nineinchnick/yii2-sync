@@ -3,17 +3,17 @@
 namespace nineinchnick\sync\models;
 
 use Yii;
-use nineinchnick\sync\models\query\ParserQuery;
+use nineinchnick\sync\models\query\ParserConfigurationQuery;
 use yii\base\NotSupportedException;
 
 /**
- * This is the model class for table "{{%sync.parsers}}".
+ * This is the model class for table "{{%sync.parser_configuration}}".
  *
  * @property integer $id
  * @property string $name
- * @property string $class
+ * @property string $model_class
  * @property string $parser_class
- * @property string $parser_options
+ * @property jsonb $parser_options
  * @property boolean $is_disabled
  * @property integer $author_id
  * @property integer $editor_id
@@ -24,14 +24,14 @@ use yii\base\NotSupportedException;
  * @property \app\models\User $editor
  * @property Transaction[] $transactions
  */
-class Parser extends \netis\utils\crud\ActiveRecord
+class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%sync.parsers}}';
+        return '{{%sync.parser_configuration}}';
     }
 
     /**
@@ -40,10 +40,10 @@ class Parser extends \netis\utils\crud\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'class', 'parser_class', 'parser_options'], 'trim'],
-            [['name', 'class', 'parser_class', 'parser_options'], 'default'],
-            [['name', 'class', 'parser_class'], 'required'],
-            [['class'], function ($attribute, $params) {
+            [['name', 'model_class', 'parser_class', 'parser_options'], 'trim'],
+            [['name', 'model_class', 'parser_class', 'parser_options'], 'default'],
+            [['name', 'model_class', 'parser_class'], 'required'],
+            [['model_class'], function ($attribute, $params) {
                 if (!class_exists($this->$attribute) || !(new $this->$attribute) instanceof \yii\db\ActiveRecord) {
                     $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Class must be a valid AR model class.'));
                 }
@@ -53,7 +53,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
                     $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Parser class must extend from Parser model.'));
                 }
             }],
-            [['name', 'class', 'parser_class'], 'string', 'max' => 255]
+            [['name', 'model_class', 'parser_class'], 'string', 'max' => 255]
         ];
     }
 
@@ -65,7 +65,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
         return [
             'id' => Yii::t('nineinchnick/sync/models', 'ID'),
             'name' => Yii::t('nineinchnick/sync/models', 'Name'),
-            'class' => Yii::t('nineinchnick/sync/models', 'Class'),
+            'model_class' => Yii::t('nineinchnick/sync/models', 'Model Class'),
             'parser_class' => Yii::t('nineinchnick/sync/models', 'Parser Class'),
             'parser_options' => Yii::t('nineinchnick/sync/models', 'Parser Options'),
             'is_disabled' => Yii::t('nineinchnick/sync/models', 'Is Disabled'),
@@ -83,13 +83,13 @@ class Parser extends \netis\utils\crud\ActiveRecord
                 'class' => 'netis\utils\db\LabelsBehavior',
                 'attributes' => ['name'],
                 'crudLabels' => [
-                    'default'  => Yii::t('nineinchnick/sync/models', 'Parser'),
-                    'relation' => Yii::t('nineinchnick/sync/models', 'Parsers'),
-                    'index'    => Yii::t('nineinchnick/sync/models', 'Browse Parsers'),
-                    'create'   => Yii::t('nineinchnick/sync/models', 'Create Parser'),
-                    'read'     => Yii::t('nineinchnick/sync/models', 'View Parser'),
-                    'update'   => Yii::t('nineinchnick/sync/models', 'Update Parser'),
-                    'delete'   => Yii::t('nineinchnick/sync/models', 'Delete Parser'),
+                    'default'  => Yii::t('nineinchnick/sync/models', 'Parser Configuration'),
+                    'relation' => Yii::t('nineinchnick/sync/models', 'Parser Configurations'),
+                    'index'    => Yii::t('nineinchnick/sync/models', 'Browse Parser Configurations'),
+                    'create'   => Yii::t('nineinchnick/sync/models', 'Create Parser Configuration'),
+                    'read'     => Yii::t('nineinchnick/sync/models', 'View Parser Configuration'),
+                    'update'   => Yii::t('nineinchnick/sync/models', 'Update Parser Configuration'),
+                    'delete'   => Yii::t('nineinchnick/sync/models', 'Delete Parser Configuration'),
                 ],
             ],
             'toggable' => [
@@ -122,7 +122,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
     }
 
     /**
-     * @return ParserQuery
+     * @return ParserConfigurationQuery
      */
     public function getAuthor()
     {
@@ -130,7 +130,7 @@ class Parser extends \netis\utils\crud\ActiveRecord
     }
 
     /**
-     * @return ParserQuery
+     * @return ParserConfigurationQuery
      */
     public function getEditor()
     {
@@ -138,20 +138,20 @@ class Parser extends \netis\utils\crud\ActiveRecord
     }
 
     /**
-     * @return ParserQuery
+     * @return ParserConfigurationQuery
      */
     public function getTransactions()
     {
-        return $this->hasMany(Transaction::className(), ['parser_id' => 'id'])->inverseOf('parser');
+        return $this->hasMany(Transaction::className(), ['parser_id' => 'id'])->inverseOf('parser_configuration');
     }
 
     /**
      * @inheritdoc
-     * @return ParserQuery the active query used by this AR class.
+     * @return ParserConfigurationQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ParserQuery(get_called_class());
+        return new ParserConfigurationQuery(get_called_class());
     }
 
     /**

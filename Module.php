@@ -10,9 +10,9 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     public $controllerMap = [
         'parser' => [
-            'class' => 'netis\utils\crud\ActiveController',
-            'modelClass' => 'nineinchnick\sync\models\Parser',
-            'searchModelClass' => 'nineinchnick\sync\models\search\Parser',
+            'class' => 'nineinchnick\sync\crud\ParserConfigurationController',
+            'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
+            'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
         ],
         'transaction' => [
             'class' => 'nineinchnick\sync\crud\TransactionController',
@@ -33,17 +33,12 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'modelClass' => 'nineinchnick\sync\models\Message',
             'searchModelClass' => 'nineinchnick\sync\models\search\Message',
         ],
-        'configuration' => [
-            'class' => 'nineinchnick\sync\crud\ConfigurationController',
-            'modelClass' => 'nineinchnick\sync\models\Configuration',
-            'searchModelClass' => 'nineinchnick\sync\models\search\Configuration',
-        ]
     ];
 
     public function bootstrap($app)
     {
         $array = array_merge([
-            'nineinchnick\sync\models\Parser' => '/sync/parser',
+            'nineinchnick\sync\models\ParserConfiguration' => '/sync/parserconfiguration',
             'nineinchnick\sync\models\Transaction' => '/sync/transaction',
             'nineinchnick\sync\models\File' => '/sync/file',
             'nineinchnick\sync\models\Message' => '/sync/message',

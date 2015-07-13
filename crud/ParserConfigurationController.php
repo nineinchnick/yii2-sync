@@ -6,10 +6,10 @@
 namespace nineinchnick\sync\crud;
 
 
-use nineinchnick\sync\models\Configuration;
+use nineinchnick\sync\models\ParserConfiguration;
 use \yii;
 
-class ConfigurationController extends \netis\utils\crud\ActiveController
+class ParserConfigurationController extends \netis\utils\crud\ActiveController
 {
 
 

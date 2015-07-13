@@ -3,11 +3,11 @@
 namespace nineinchnick\sync\models\query;
 
 /**
- * This is the ActiveQuery class for [[\nineinchnick\sync\models\Transaction]].
+ * This is the ActiveQuery class for [[\nineinchnick\sync\models\ParserConfiguration]].
  *
- * @see \nineinchnick\sync\models\Transaction
+ * @see \nineinchnick\sync\models\ParserConfiguration
  */
-class ConfigurationQuery extends \netis\utils\db\ActiveQuery
+class ParserConfigurationQuery extends \netis\utils\db\ActiveQuery
 {
     /*public function active()
     {
@@ -17,7 +17,7 @@ class ConfigurationQuery extends \netis\utils\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \nineinchnick\sync\models\Configuration[]|array
+     * @return \nineinchnick\sync\models\ParserConfiguration[]|array
      */
     public function all($db = null)
     {
@@ -26,7 +26,7 @@ class ConfigurationQuery extends \netis\utils\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \nineinchnick\sync\models\Configuration|array|null
+     * @return \nineinchnick\sync\models\ParserConfiguration|array|null
      */
     public function one($db = null)
     {

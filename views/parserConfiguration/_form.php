@@ -46,9 +46,11 @@ $fields[0]['class'] = [
     'attribute' => 'class',
     'arguments' => [],
 ];
-$fields[0]['column-order-button'] =  \yii\helpers\Html::button(Yii::t('nineinchnick/sync/models', 'Change column order'), ['id' => 'column-order-button']);
+$fields[0]['column-order-button'] = \yii\helpers\Html::button(Yii::t('nineinchnick/sync/models', 'Change column order'), ['id' => 'column-order-button']);
 ?>
-<div class="row"><div class="hidden col-md-5" id="column-order-div"></div></div>
+<div class="row">
+    <div class="hidden col-md-5" id="column-order-div"></div>
+</div>
 <?php
 echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . '_form.php', [
     'model' => $model,
