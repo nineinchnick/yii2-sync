@@ -2,7 +2,6 @@
 
 namespace nineinchnick\sync\models;
 
-//use nineinchnick\sync\models\search\ParserConfiguration;
 use Yii;
 use nineinchnick\sync\models\query\TransactionQuery;
 use yii\web\UploadedFile;

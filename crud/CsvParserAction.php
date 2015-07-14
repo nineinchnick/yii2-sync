@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: pradziszewski
- * Date: 13.07.15
- * Time: 14:18
+ * @author Patryk Radziszewski <pradziszewski@netis.pl>
+ * @link http://netis.pl/
+ * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  */
 
 namespace nineinchnick\sync\crud;
@@ -15,13 +14,14 @@ use nineinchnick\sync\models\ParserConfiguration;
 class CsvParserAction extends UpdateAction
 {
 
-    public $csvParser = 'app\models\CsvParser';
+    public $parser = 'app\models\CsvParser';
+    public $scenario = ParserConfiguration::SCENARIO_CSV_PARSER;
 
     protected function initModel($id)
     {
         $model = parent::initModel($id);
-        $model->parser_class = $this->csvParser;
-        $model->scenario = ParserConfiguration::SCENARIO_CSV_PARSER;
+        $model->parser_class = $this->parser;
+        $model->scenario = $this->scenario;
         return $model;
     }
 

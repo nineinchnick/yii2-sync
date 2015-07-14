@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author Patryk Radziszewski <pradziszewski@netis.pl>
+ * @link http://netis.pl/
+ * @copyright Copyright (c) 2015 Netis Sp. z o. o.
+ */
 
 namespace nineinchnick\sync\models;
 
@@ -30,10 +35,16 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public $delimiter;
     public $enclosure;
     public $escape;
+    public $firstCol;
+    public $firstRow;
+    public $sheet;
+    public $header;
 
-    public $csvParserFields = ['length', 'delimiter', 'enclosure', 'escape'];
+    public $csvParserFields = ['length', 'delimiter', 'enclosure', 'escape', 'header'];
+    public $xlsParserFields = ['firstCol', 'firstRow', 'sheet', 'header'];
 
     const SCENARIO_CSV_PARSER = 'csvParser';
+    const SCENARIO_XLS_PARSER = 'xlsParser';
 
     /**
      * @inheritdoc
@@ -65,6 +76,10 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
             [['name', 'model_class', 'parser_class'], 'string', 'max' => 255],
             [['length'], 'integer', 'on' => self::SCENARIO_CSV_PARSER],
             [['delimiter', 'enclosure', 'escape'], 'string', 'max' => 1, 'on' => self::SCENARIO_CSV_PARSER],
+            [['header'], 'boolean', 'on' => self::SCENARIO_CSV_PARSER],
+            [['firstCol'], 'string', 'on' => self::SCENARIO_XLS_PARSER],
+            [['firstRow', 'sheet'], 'integer', 'on' => self::SCENARIO_XLS_PARSER],
+            [['header'], 'boolean', 'on' => self::SCENARIO_XLS_PARSER],
         ];
     }
 
@@ -84,6 +99,14 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
             'editor_id' => Yii::t('nineinchnick/sync/models', 'Editor ID'),
             'updated_on' => Yii::t('nineinchnick/sync/models', 'Updated On'),
             'created_on' => Yii::t('nineinchnick/sync/models', 'Created On'),
+            'length' => Yii::t('nineinchnick/sync/models', 'Length'),
+            'delimiter' => Yii::t('nineinchnick/sync/models', 'Delimiter'),
+            'enclosure' => Yii::t('nineinchnick/sync/models', 'Enclosure'),
+            'escape' => Yii::t('nineinchnick/sync/models', 'Escape'),
+            'fistCol' => Yii::t('nineinchnick/sync/models', 'First Column'),
+            'firstRow' => Yii::t('nineinchnick/sync/models', 'First Row'),
+            'sheet' => Yii::t('nineinchnick/sync/models', 'Sheet'),
+            'header' => Yii::t('nineinchnick/sync/models', 'Header'),
         ];
     }
 
@@ -135,7 +158,8 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            self::SCENARIO_CSV_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape'],
+            self::SCENARIO_CSV_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape', 'header'],
+            self::SCENARIO_XLS_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'firstCol', 'firstRow', 'sheet', 'header'],
         ]);
 
     }
@@ -161,7 +185,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
      */
     public function getTransactions()
     {
-        return $this->hasMany(Transaction::className(), ['parser_id' => 'id'])->inverseOf('parser_configuration');
+        return $this->hasMany(Transaction::className(), ['parser_id' => 'id'])->inverseOf('parserConfiguration');
     }
 
     /**
@@ -220,6 +244,9 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
             case self::SCENARIO_CSV_PARSER:
                 $fields = $this->csvParserFields;
                 break;
+            case self::SCENARIO_XLS_PARSER:
+                $fields = $this->xlsParserFields;
+                break;
             default:
                 $fields = [];
         }
@@ -234,9 +261,11 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 
     public function afterFind()
     {
-        $parserOptions = json_decode($this->parser_options);
-        foreach($parserOptions as $option => $value) {
-            $this->$option = $value;
+        $parserOptions = json_decode($this->parser_options, true);
+        if (is_array($parserOptions)) {
+            foreach ($parserOptions as $option => $value) {
+                $this->$option = $value;
+            }
         }
         return parent::afterFind();
     }

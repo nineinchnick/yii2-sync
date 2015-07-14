@@ -1,9 +1,13 @@
 <?php
+/**
+ * @author Patryk Radziszewski <pradziszewski@netis.pl>
+ * @link http://netis.pl/
+ * @copyright Copyright (c) 2015 Netis Sp. z o. o.
+ */
 
 use yii\helpers\Html;
 use netis\utils\widgets\GridView;
 use yii\widgets\Pjax;
-
 
 /* @var $this yii\web\View */
 /* @var $searchModel \yii\base\Model */
@@ -15,8 +19,13 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 
 $columns[0]['buttons']['update'] = function ($url, $model) {
-    if ($model->parser_class == 'app\models\CsvParser') {
-        $url = ['csvParser', 'id' => $model['id']];
+    switch ($model->parser_class) {
+        case 'app\models\CsvParser':
+            $url = ['csvParser', 'id' => $model['id']];
+            break;
+        case 'app\models\XlsParser':
+            $url = ['xlsParser', 'id' => $model['id']];
+            break;
     }
     return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
         'title' => Yii::t('yii', 'Update'),

@@ -8,13 +8,8 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     public $defaultRoute = 'transaction';
 
-    public $parserList = [
-        'csvParser' => 'app\models\CsvParser',
-        'xlsxParser' => 'app\models\XlsxParser',
-    ];
-
     public $controllerMap = [
-        'parserConfiguration' => [
+        'parserconfiguration' => [
             'class' => 'nineinchnick\sync\crud\ParserConfigurationController',
             'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
             'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
@@ -38,6 +33,11 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             'modelClass' => 'nineinchnick\sync\models\Message',
             'searchModelClass' => 'nineinchnick\sync\models\search\Message',
         ],
+    ];
+
+    public $parserList = [
+        'csvParser' => 'app\models\CsvParser',
+        'xlsParser' => 'app\models\XlsParser',
     ];
 
     public function bootstrap($app)

@@ -44,10 +44,10 @@ class ProcessAction extends Action
                 $success = $file->transfer();
             }
             if ($success && $file->processed_on === null) {
-                $success = $model->parser->process($file);
+                $success = $model->parserConfiguration->process($file);
             }
             if ($success && $file->acknowledged_on === null) {
-                $success = $model->parser->acknowledge($file);
+                $success = $model->parserConfiguration->acknowledge($file);
             }
             if (!$success) {
                 break;

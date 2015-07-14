@@ -182,6 +182,14 @@ class File extends \netis\utils\crud\ActiveRecord
     }
 
     /**
+     * @return FileQuery
+     */
+    public function getParserConfiguration()
+    {
+        return $this->hasOne(ParserConfiguration::className(), ['id' => 'parser_id'])->via('transaction');
+    }
+
+    /**
      * @inheritdoc
      * @return FileQuery the active query used by this AR class.
      */

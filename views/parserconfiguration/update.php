@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author Patryk Radziszewski <pradziszewski@netis.pl>
+ * @link http://netis.pl/
+ * @copyright Copyright (c) 2015 Netis Sp. z o. o.
+ */
 
 use yii\helpers\Html;
 
@@ -18,9 +23,10 @@ $this->params['breadcrumbs'] = $controller->getBreadcrumbs($controller->action, 
 $this->params['menu'] = $controller->getMenu($controller->action, $model);
 ?>
 
-<h1><span><?= Html::encode($this->title) ?></span></h1>
+    <h1><span><?= Html::encode($this->title) ?></span></h1>
 
 <?= netis\utils\web\Alerts::widget() ?>
+
 <?php if ($model->scenario === 'create'): ?>
     <ul class="list-group col-md-3">
         <?php foreach ($controller->module->parserList as $action => $namespace): ?>
@@ -31,7 +37,4 @@ $this->params['menu'] = $controller->getMenu($controller->action, $model);
             </li>
         <?php endforeach; ?>
     </ul>
-<?php else: ?>
-
-
 <?php endif; ?>

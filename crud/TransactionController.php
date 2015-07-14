@@ -33,7 +33,7 @@ class TransactionController extends \netis\utils\crud\ActiveController
                 'label'  => \Yii::t('app', 'Process'),
                 'icon'   => 'cog',
                 'url'    => ['process', 'id' => $id],
-                'active' => false, //$action->id === 'update' && !$model->isNewRecord,
+                'active' => false,
             ];
             if ($model->isNewRecord) {
                 $menu['process']['disabled'] = true;
