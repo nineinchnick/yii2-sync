@@ -17,10 +17,6 @@ use Yii;
  */
 class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
 {
-    /*
-     * If file is one of this types, content is read by PHPExcel
-     */
-    private $_excelTypes = ['Excel2007', 'Excel5', 'OOCalc', 'Excel2003XML'];
 
     /**
      * @inheritdoc
@@ -47,10 +43,7 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
         }
         $number = $model->getFiles()->count();
         foreach ($model->uploadedFiles as $uploadedFile) {
-            //Null means PHPExcel::identify is different then $_excelTypes
-            if (is_null($content = $this->readXls($uploadedFile, $model->parserConfiguration))) {
-                $content = file_get_contents($uploadedFile->tempName);
-            }
+            $content = file_get_contents($uploadedFile->tempName);
             $file = new File();
             $file->setAttributes([
                 'number'   => ++$number,
@@ -70,33 +63,6 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
             }
         }
         return true;
-    }
-
-    public function readXls($uploadedFile, $parserConfiguration)
-    {
-        $firstCol = !empty($parserConfiguration->firstCol) ? $parserConfiguration->firstCol : 'A';
-        $firstRow = !empty($parserConfiguration->firstRow) ? $parserConfiguration->firstRow : 1;
-        $sheet = !empty($parserConfiguration->sheet) ? $parserConfiguration->sheet : 0;
-        $inputFileName = $uploadedFile->tempName;
-        $inputFileType = \PHPExcel_IOFactory::identify($inputFileName);
-        if (!in_array($inputFileType, $this->_excelTypes)) {
-            return null;
-        }
-        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-        $objPHPExcel = $objReader->load($inputFileName);
-        //  Get worksheet dimensions
-        $sheet = $objPHPExcel->getSheet($sheet);
-        $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
-        //  Loop through each row of the worksheet
-        $data = [];
-        for ($row = $firstRow; $row <= $highestRow; $row++) {
-            //  Read a row of data into an array
-            $rowData = $sheet->rangeToArray($firstCol . $row . ':' . $highestColumn . $row);
-            $data[] = join("\t", $rowData[0]);
-        }
-        return join("\r\n", $data);
-
     }
 
 }

@@ -12,7 +12,7 @@ use nineinchnick\sync\models\ParserConfiguration;
 class XlsParserAction extends CsvParserAction
 {
 
-    public $parser = 'app\models\XlsParser';
+    public $parser = 'app\models\OrderXlsParser';
     public $scenario = ParserConfiguration::SCENARIO_XLS_PARSER;
 
 }

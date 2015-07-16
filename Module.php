@@ -37,7 +37,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     public $parserList = [
         'csvParser' => 'app\models\CsvParser',
-        'xlsParser' => 'app\models\XlsParser',
+        'xlsParser' => 'app\models\OrderXlsParser',
     ];
 
     public function bootstrap($app)
