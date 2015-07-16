@@ -13,12 +13,12 @@ class m150622_112220_base extends Migration
         $cascade = 'ON DELETE CASCADE ON UPDATE CASCADE';
         $restrict = 'ON DELETE RESTRICT ON UPDATE CASCADE';
 
-        $this->createTable("{$this->schemaName}.{{%parsers}}", [
+        $this->createTable("{$this->schemaName}.{{%parser_configuration}}", [
             'id'             => 'pk',
             'name'           => 'string NOT NULL',
-            'class'          => 'string NOT NULL',
+            'model_class'    => 'string NOT NULL',
             'parser_class'   => 'string NOT NULL',
-            'parser_options' => 'text',
+            'parser_options' => 'jsonb',
             'is_disabled'    => 'boolean NOT NULL DEFAULT FALSE',
             'author_id'      => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
             'editor_id'      => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
@@ -27,7 +27,7 @@ class m150622_112220_base extends Migration
         ]);
         $this->createTable("{$this->schemaName}.{{%transactions}}", [
             'id'         => 'pk',
-            'parser_id'  => "integer NOT NULL REFERENCES {$this->schemaName}.{{%parsers}} (id) $restrict",
+            'parser_id'  => "integer NOT NULL REFERENCES {$this->schemaName}.{{%parser_configuration}} (id) $restrict",
             'is_import'  => 'boolean NOT NULL DEFAULT true',
             'author_id'  => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
             'editor_id'  => "integer NOT NULL REFERENCES public.{{%users}} (id) $restrict",
@@ -106,7 +106,7 @@ class m150622_112220_base extends Migration
         $this->dropTable("{$this->schemaName}.{{%messages}}");
         $this->dropTable("{$this->schemaName}.{{%files}}");
         $this->dropTable("{$this->schemaName}.{{%transactions}}");
-        $this->dropTable("{$this->schemaName}.{{%parsers}}");
+        $this->dropTable("{$this->schemaName}.{{%parser_configuration}}");
 
         $this->execute('DROP SCHEMA '.$this->schemaName);
     }
