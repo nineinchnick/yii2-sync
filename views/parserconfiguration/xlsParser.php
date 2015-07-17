@@ -10,10 +10,10 @@ use yii\helpers\Html;
 $orderColumnUrl = \yii\helpers\Url::to(['column-order']);
 $modelId = (empty($model->id)) ? 0 : $model->id;
 $script = <<<JavaScript
-    $('#basexlsparser-columnsorder').val($('#sortable-form').serialize());
+    $("input[id$='columnsorder']").val($('#sortable-form').serialize());
     $( "#sortable" ).sortable({
         update: function(event, ui) {
-            $('#basexlsparser-columnsorder').val($('#sortable-form').serialize());
+            $("input[id$='columnsorder']").val($('#sortable-form').serialize());
         }
     });
 

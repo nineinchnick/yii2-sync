@@ -23,7 +23,7 @@ $columns[0]['buttons']['update'] = function ($url, $model) {
         case 'app\models\CsvParser':
             $url = ['csvParser', 'id' => $model['id']];
             break;
-        case 'app\models\XlsParser':
+        case 'app\models\OrderXlsParser':
             $url = ['xlsParser', 'id' => $model['id']];
             break;
     }
@@ -32,6 +32,7 @@ $columns[0]['buttons']['update'] = function ($url, $model) {
         'data-pjax' => '0',
     ]);
 };
+$columns[5]['format'] = 'raw';
 echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . 'index.php', [
     'searchModel' => $searchModel,
     'searchFields' => $searchFields,

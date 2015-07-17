@@ -35,7 +35,7 @@ class BaseXlsParser extends BaseCsvParser
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'fistCol' => Yii::t('nineinchnick/sync/models', 'First Column'),
+            'firstCol' => Yii::t('nineinchnick/sync/models', 'First Column'),
             'firstRow' => Yii::t('nineinchnick/sync/models', 'First Row'),
             'sheet' => Yii::t('nineinchnick/sync/models', 'Sheet'),
             'header' => Yii::t('nineinchnick/sync/models', 'Header'),
@@ -53,15 +53,15 @@ class BaseXlsParser extends BaseCsvParser
 
     public function readXls($uploadedFile, $parserConfiguration)
     {
-        $firstCol = !empty($parserConfiguration->firstCol) ? $parserConfiguration->firstCol : 'A';
+        $fileName = '/tmp/' . sha1($uploadedFile) . 'xls';
+        touch($fileName);
+        file_put_contents($fileName, $uploadedFile);
         $firstRow = !empty($parserConfiguration->firstRow) ? $parserConfiguration->firstRow : 1;
+        $firstCol = !empty($parserConfiguration->firstCol) ? $parserConfiguration->firstCol : 'A';
         $sheet = !empty($parserConfiguration->sheet) ? $parserConfiguration->sheet : 0;
-        $inputFileName = $uploadedFile;
-        $inputFileType = \PHPExcel_IOFactory::identify($inputFileName);
-        var_dump($inputFileType);
-        die();
+        $inputFileType = \PHPExcel_IOFactory::identify($fileName);
         $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-        $objPHPExcel = $objReader->load($inputFileName);
+        $objPHPExcel = $objReader->load($fileName);
         //  Get worksheet dimensions
         $sheet = $objPHPExcel->getSheet($sheet);
         $highestRow = $sheet->getHighestRow();
@@ -73,6 +73,7 @@ class BaseXlsParser extends BaseCsvParser
             $rowData = $sheet->rangeToArray($firstCol . $row . ':' . $highestColumn . $row);
             $data[] = join("\t", $rowData[0]);
         }
+        unlink($fileName);
         return join("\r\n", $data);
     }
 
@@ -85,12 +86,34 @@ class BaseXlsParser extends BaseCsvParser
 
     public function afterFind()
     {
-        parent::afterFind();
-        $columns = json_decode($this->columnsOrder, true);
-        if(!is_null($columns)) {
-            asort($columns);
-            $this->columnsOrder = json_encode($columns);
+        if (in_array(Yii::$app->controller->action->id, ['view', 'index'])) {
+            $parserOptions = json_decode($this->parser_options, true);
+            if (is_array($parserOptions) && isset($parserOptions['columnsOrder'])) {
+                $columnsOrder = json_decode($parserOptions['columnsOrder']);
+                $order = [];
+                $i = 1;
+                foreach ($columnsOrder as $column) {
+                    $order[$i] = $i . ': ' . $column;
+                    $i++;
+                }
+                $parserOptions['columnsOrder'] = join(', ', $order);
+            }
+            $this->parser_options = json_encode($parserOptions);
         }
+        parent::afterFind();
+    }
+
+    public
+    function prepareAttributes($fields, $columnsOrder)
+    {
+        $attributes = [];
+        $index = 0;
+        $columnsOrder = json_decode($columnsOrder);
+        foreach ($columnsOrder as $key => $label) {
+            $attributes[$key] = $fields[$index];
+            $index++;
+        }
+        return $attributes;
     }
 
 }

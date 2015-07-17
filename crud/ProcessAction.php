@@ -58,13 +58,12 @@ class ProcessAction extends Action
         $response->setStatusCode(204);
 
         if ($success) {
-            $message = Yii::t('app', 'Record has been successfully processed.');
+            $this->setFlash('success', Yii::t('app', 'Record has been successfully processed.'));
             $trx->commit();
         } else {
-            $message = Yii::t('app', 'Failed to process record.');
+            $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
             $trx->rollBack();
         }
-        $this->setFlash('success', $message);
 
         $response->getHeaders()->set('Location', Url::toRoute([$this->indexAction], true));
     }

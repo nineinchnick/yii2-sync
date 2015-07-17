@@ -32,6 +32,7 @@ use yii\base\NotSupportedException;
 class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 {
     protected $_mainAttributes = ['name', 'model_class', 'parser_class', 'parser_options'];
+
     /**
      * @inheritdoc
      */
@@ -203,8 +204,8 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function beforeSave($insert)
     {
         $parserOptions = [];
-        foreach($this->activeAttributes() as $attr) {
-            if(!in_array($attr, $this->_mainAttributes)) {
+        foreach ($this->activeAttributes() as $attr) {
+            if (!in_array($attr, $this->_mainAttributes)) {
                 $parserOptions[$attr] = $this->$attr;
             }
         }
@@ -215,10 +216,17 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function afterFind()
     {
         $parserOptions = json_decode($this->parser_options, true);
+        $attributeLabels = $this->attributeLabels();
+        $newOptions = [];
         if (is_array($parserOptions)) {
             foreach ($parserOptions as $option => $value) {
+                //fill inputs;
                 $this->$option = $value;
+                //format parserOptions
+                $newOptions[$attributeLabels[$option]] = $attributeLabels[$option] . ': ' . $value;
+
             }
+            $this->parser_options = join('<br>', $newOptions);
         }
         return parent::afterFind();
     }
