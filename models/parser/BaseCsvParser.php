@@ -73,12 +73,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
      */
     public function process($file)
     {
-        $content = base64_decode($file->content);
-        $configuration = $file->parserConfiguration;
-        fgetcsv($content, $configuration->delimeter, $configuration->enclosure, $configuration->escape);
-
-        return true;
-
+        throw new NotSupportedException();
     }
 
     /**

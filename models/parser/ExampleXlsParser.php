@@ -41,64 +41,13 @@ class ExampleXlsParser extends BaseXlsParser
     {
         $configuration = $file->parserConfiguration;
         $content = $this->readXls(base64_decode($file->content), $configuration);
-        $last = [
-            'status' => null,
-            'order_no' => null,
-            'order_id' => null,
-        ];
-        $nextOrder = true;
         foreach (explode("\r\n", $content) as $key => $line) {
             if (!empty($configuration->header) && $key === 0) {
                 continue;
             }
             $fields = explode("\t", $line);
             $attributes = $this->prepareAttributes($fields, $configuration->columnsOrder);
-            //couldn't create contractor or product
-            if (!$attributes) {
-                throw new Exception(Yii::t('nineinchnick/sync/app', "Couldn't create contractor or product on row {row}", ['row' => $key]));
-            }
-            if ($last['order_no'] === $attributes['order_no']) {
-                $nextOrder = false;
-                //same order number but different status
-                if (!is_null($last['status']) && ($last['status'] !== $attributes['order_status'])) {
-                    throw new Exception(Yii::t('nineinchnick/sync/app', "Statuses of same order number are different on row {row}", ['row' => $key]));
-                }
-            }
-            if ($nextOrder) {
-                //check if this order exists in database
-                $model = Order::findOne(['display_number' => $attributes['order_no']]);
-                if (is_null($model)) {
-                    $model = new Order();
-                }
-                $model->order_status_id = OrderStatus::STATUS_NEW;//@TODOthis have to be changed to $attributes['order_status'] after we get statuses map;
-                $model->contractor_id = $attributes['contractor']->id;
-                if (!$model->save()) {
-                    throw new Exception(Yii::t('nineinchnick/sync/app', "Couldn't create new order on row {row}", ['row' => $key]));
-                }
-                $model = Order::findOne($model->id);
-                $model->display_number = $attributes['order_no'];
-                $model->save();
-                $last['order_id'] = $model->id;
-            }
-            //check if OrderItem exists
-            $orderItem = OrderItem::findOne(['order_id' => $last['order_id'], 'display_number' => $attributes['item_line']]);
-            if (is_null($orderItem)) {
-                $orderItem = new OrderItem();
-            }
-            $orderItem->order_id = $last['order_id'];
-            $orderItem->price = $attributes['item_price'];
-            $orderItem->currency_code = $attributes['item_currency'];
-            $orderItem->quantity = $attributes['item_quantity'];
-            $orderItem->product_id = $attributes['product']->id;
-            if (!$orderItem->save()) {
-                throw new Exception(Yii::t('nineinchnick/sync/app', "Couldn't create new order item on row {row}", ['row' => $key]));
-            }
-            $orderItem = OrderItem::findOne($orderItem->id);
-            $orderItem->display_number = $attributes['item_line'];
-            $orderItem->save();
-
-            $last['status'] = $attributes['order_status'];
-            $last['order_no'] = $attributes['order_no'];
+            //process
         }
         return true;
 

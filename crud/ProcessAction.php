@@ -52,7 +52,7 @@ class ProcessAction extends Action
                 try {
                     $success = $model->parserConfiguration->process($file);
                 } catch (Yii\Base\Exception $e) {
-                    $message = $e->getMessage();
+                    $message = Yii::t('nineinchnick/sync/app', 'Method returned exception type {type} with message {message}', ['type' => get_class($e), 'message' => $e->getMessage()]);
                     $fileId = $file->id;
                     $success = false;
                 }
