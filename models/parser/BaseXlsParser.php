@@ -86,6 +86,7 @@ class BaseXlsParser extends BaseCsvParser
 
     public function afterFind()
     {
+        //If view or index action normalize column order to display in line
         if (in_array(Yii::$app->controller->action->id, ['view', 'index'])) {
             $parserOptions = json_decode($this->parser_options, true);
             if (is_array($parserOptions) && isset($parserOptions['columnsOrder'])) {
@@ -102,9 +103,8 @@ class BaseXlsParser extends BaseCsvParser
         }
         parent::afterFind();
     }
-
-    public
-    function prepareAttributes($fields, $columnsOrder)
+    //Get proper index of attribute column
+    public function prepareAttributes($fields, $columnsOrder)
     {
         $attributes = [];
         $index = 0;

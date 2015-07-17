@@ -17,7 +17,6 @@ use Yii;
  */
 class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
 {
-
     /**
      * @inheritdoc
      */
@@ -43,8 +42,8 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
         }
         $number = $model->getFiles()->count();
         foreach ($model->uploadedFiles as $uploadedFile) {
-            $content = file_get_contents($uploadedFile->tempName);
             $file = new File();
+            $content = file_get_contents($uploadedFile->tempName);
             $file->setAttributes([
                 'number'   => ++$number,
                 'url'      => 'file://'.$uploadedFile->name,
@@ -64,5 +63,4 @@ class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
         }
         return true;
     }
-
 }

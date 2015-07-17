@@ -3,15 +3,14 @@
  * @author Patryk Radziszewski <pradziszewski@netis.pl>
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
+ *
+ * @var $this yii\web\View
+ * @var $model yii\db\ActiveRecord
+ * @var $fields array
+ * @var $relations array
+ * @var $controller netis\utils\crud\ActiveController
  */
-
 use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model yii\db\ActiveRecord */
-/* @var $fields array */
-/* @var $relations array */
-/* @var $controller netis\utils\crud\ActiveController */
 
 $controller = $this->context;
 
