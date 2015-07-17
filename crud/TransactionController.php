@@ -30,7 +30,7 @@ class TransactionController extends \netis\utils\crud\ActiveController
         }
         if ($privs['current']['update'] && ($horizontal || $action->id !== 'process')) {
             $menu['process'] = [
-                'label' => \Yii::t('app', 'Process'),
+                'label' => \Yii::t('nineinchnick/sync/app', 'Process'),
                 'icon' => 'cog',
                 'url' => ['process', 'id' => $id],
                 'active' => false,

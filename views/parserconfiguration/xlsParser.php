@@ -52,7 +52,7 @@ $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'colum
         ]); ?>
     </div>
     <div class="col-md-6" id="column-order-div">
-        <h4><?= Yii::t('app', 'Set your column order') ?></h4>
+        <h4><?= Yii::t('nineinchnick/sync/app', 'Set your column order') ?></h4>
 
         <form id="sortable-form">
             <ul id="sortable" class="list-group" style="margin-top: 25px">

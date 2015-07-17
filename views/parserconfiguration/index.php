@@ -28,7 +28,7 @@ $columns[0]['buttons']['update'] = function ($url, $model) {
         'data-pjax' => '0',
     ]);
 };
-$columns[5]['format'] = 'raw';
+$columns[4]['format'] = 'raw';
 echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . 'index.php', [
     'searchModel' => $searchModel,
     'searchFields' => $searchFields,
