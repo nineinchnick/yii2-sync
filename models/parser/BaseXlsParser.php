@@ -19,6 +19,9 @@ class BaseXlsParser extends BaseCsvParser
     const SCENARIO_XLS_PARSER = 'xlsParser';
     protected $_optionFields = [];
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -32,6 +35,9 @@ class BaseXlsParser extends BaseCsvParser
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -43,6 +49,9 @@ class BaseXlsParser extends BaseCsvParser
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
@@ -51,6 +60,13 @@ class BaseXlsParser extends BaseCsvParser
 
     }
 
+    /**
+     * @param $uploadedFile
+     * @param $parserConfiguration
+     * @return array
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     */
     public function readXls($uploadedFile, $parserConfiguration)
     {
         $fileName = '/tmp/' . sha1($uploadedFile) . 'xls';
@@ -77,6 +93,9 @@ class BaseXlsParser extends BaseCsvParser
         return join("\r\n", $data);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         parse_str($this->columnsOrder, $columnOrder);
@@ -84,6 +103,9 @@ class BaseXlsParser extends BaseCsvParser
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         //If view or index action normalize column order to display in line
@@ -103,7 +125,14 @@ class BaseXlsParser extends BaseCsvParser
         }
         parent::afterFind();
     }
-    //Get proper index of attribute column
+
+    /**
+     * Get proper index of attribute column
+     *
+     * @param array $fields
+     * @param json $columnsOrder
+     * @return array
+     */
     public function prepareAttributes($fields, $columnsOrder)
     {
         $attributes = [];

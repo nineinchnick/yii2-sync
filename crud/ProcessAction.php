@@ -13,6 +13,10 @@ use yii\db\Transaction;
 use yii\helpers\Url;
 use yii\web\ServerErrorHttpException;
 
+/**
+ * Class ProcessAction
+ * @package nineinchnick\sync\crud
+ */
 class ProcessAction extends Action
 {
     /**

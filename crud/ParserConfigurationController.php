@@ -12,6 +12,9 @@ use \yii;
 class ParserConfigurationController extends \netis\utils\crud\ActiveController
 {
 
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return array_merge(parent::actions(), [

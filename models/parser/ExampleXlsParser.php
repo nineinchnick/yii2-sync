@@ -117,6 +117,9 @@ class ExampleXlsParser extends BaseXlsParser
         return true;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function prepareAttributes($fields, $columnsOrder)
     {
         $attributes = parent::prepareAttributes($fields, $columnsOrder);
@@ -131,6 +134,10 @@ class ExampleXlsParser extends BaseXlsParser
         return $attributes;
     }
 
+    /**
+     * @param array $attributes
+     * @return bool|Contractor|null|static
+     */
     public function getContractor($attributes)
     {
         $contractor = Contractor::findOne(['symbol' => $attributes['contractor_symbol']]);
@@ -147,6 +154,10 @@ class ExampleXlsParser extends BaseXlsParser
         }
     }
 
+    /**
+     * @param array $attributes
+     * @return bool|Product|null|static
+     */
     public function getProduct($attributes)
     {
         $product = Product::findOne(['symbol' => $attributes['product_symbol']]);

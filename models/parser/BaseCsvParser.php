@@ -18,6 +18,9 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 
     const SCENARIO_CSV_PARSER = 'csvParser';
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -26,6 +29,9 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
@@ -36,6 +42,9 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [

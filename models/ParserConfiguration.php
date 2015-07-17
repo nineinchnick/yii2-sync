@@ -83,6 +83,9 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -201,6 +204,9 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
         throw new NotSupportedException();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         $parserOptions = [];
@@ -213,6 +219,9 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         $parserOptions = json_decode($this->parser_options, true);

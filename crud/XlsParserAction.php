@@ -17,6 +17,9 @@ class XlsParserAction extends CsvParserAction
     public $scenario = BaseXlsParser::SCENARIO_XLS_PARSER;
     public $modelClass = 'nineinchnick\sync\models\parser\BaseXlsParser';
 
+    /**
+     * @inheritdoc
+     */
     protected function initModel($id)
     {
         $model = parent::initModel($id);
@@ -26,6 +29,10 @@ class XlsParserAction extends CsvParserAction
         return $model;
     }
 
+    /**
+     * Static map of columns order
+     * @return array
+     */
     public function getDefaultColumnsOrder()
     {
         return [

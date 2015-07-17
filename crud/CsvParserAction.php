@@ -18,6 +18,9 @@ class CsvParserAction extends UpdateAction
     public $scenario = BaseCsvParser::SCENARIO_CSV_PARSER;
     public $modelClass = 'nineinchnick\sync\models\parser\BaseCsvParser';
 
+    /**
+     * @inheritdoc
+     */
     protected function initModel($id)
     {
         $model = parent::initModel($id);
