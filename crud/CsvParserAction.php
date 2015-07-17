@@ -9,13 +9,14 @@ namespace nineinchnick\sync\crud;
 
 
 use netis\utils\crud\UpdateAction;
-use nineinchnick\sync\models\ParserConfiguration;
+use nineinchnick\sync\models\parser\BaseCsvParser;
 
 class CsvParserAction extends UpdateAction
 {
 
     public $parser = 'app\models\CsvParser';
-    public $scenario = ParserConfiguration::SCENARIO_CSV_PARSER;
+    public $scenario = BaseCsvParser::SCENARIO_CSV_PARSER;
+    public $modelClass = 'nineinchnick\sync\models\parser\BaseCsvParser';
 
     protected function initModel($id)
     {

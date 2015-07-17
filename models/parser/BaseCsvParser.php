@@ -7,6 +7,7 @@
 
 namespace nineinchnick\sync\models\parser;
 
+use Yii;
 
 class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 {
@@ -63,12 +64,9 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
     public function process($file)
     {
         $content = base64_decode($file->content);
-        foreach (explode("\r\n", $content) as $key => $line) {
-            if ($key === 0) {
-                continue;
-            }
-            $fields = str_getcsv($line, "\t");
-        }
+        $configuration = $file->parserConfiguration;
+        fgetcsv($content, $configuration->delimeter, $configuration->enclosure, $configuration->escape);
+
         return true;
 
     }

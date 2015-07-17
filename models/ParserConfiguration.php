@@ -31,6 +31,7 @@ use yii\base\NotSupportedException;
  */
 class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 {
+    protected $_mainAttributes = ['name', 'model_class', 'parser_class', 'parser_options'];
     /**
      * @inheritdoc
      */
@@ -202,22 +203,12 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function beforeSave($insert)
     {
         $parserOptions = [];
-        switch ($this->scenario) {
-            case self::SCENARIO_CSV_PARSER:
-                $fields = $this->csvParserFields;
-                break;
-            case self::SCENARIO_XLS_PARSER:
-                $fields = $this->xlsParserFields;
-                break;
-            default:
-                $fields = [];
+        foreach($this->activeAttributes() as $attr) {
+            if(!in_array($attr, $this->_mainAttributes)) {
+                $parserOptions[$attr] = $this->$attr;
+            }
         }
-
-        foreach ($fields as $field) {
-            $parserOptions[$field] = $this->$field;
-        }
-        $parserOptions = json_encode($parserOptions);
-        $this->parser_options = $parserOptions;
+        $this->parser_options = json_encode($parserOptions);
         return parent::beforeSave($insert);
     }
 
