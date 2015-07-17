@@ -10,9 +10,13 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     public $controllerMap = [
         'parserconfiguration' => [
-            'class' => 'nineinchnick\sync\crud\ParserConfigurationController',
+            'class' => 'netis\utils\crud\ActiveController',
             'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
             'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
+            'actionsClassMap' => [
+                'csvParser' => 'nineinchnick\sync\crud\CsvParserAction',
+                'xlsParser' => 'nineinchnick\sync\crud\XlsParserAction',
+            ],
         ],
         'transaction' => [
             'class' => 'nineinchnick\sync\crud\TransactionController',

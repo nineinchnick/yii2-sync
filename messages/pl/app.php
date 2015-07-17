@@ -18,8 +18,8 @@
  */
 return [
     'Couldn\'t create new contractor or product on row {row}.' => 'Zapisanie nowego kontrahenta lub produktu w wierszu {row} nie powiodło się.',
-    'Couldn\'t create new order item on row {row}.' => 'Zapisanie nowej linii zamówienia w wierszu {row} nie powiodło się.',
-    'Couldn\'t create new order on row {row}.' => 'Zapisanie nowego zamówienia w wierszu {row} nie powiodło się.',
+    'Couldn\'t create new order item on row {row}. {data}' => 'Zapisanie nowej linii zamówienia w wierszu {row} nie powiodło się.',
+    'Couldn\'t create new order on row {row}. {data}' => 'Zapisanie nowego zamówienia w wierszu {row} nie powiodło się.',
     'Process' => 'Proces',
     'Set your column order' => 'Ustaw kolejność kolumn',
     'Statuses of same order are different on row {row},' => 'Statusy tego samego zamówienia różnią się.',
