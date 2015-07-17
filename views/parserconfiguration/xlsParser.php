@@ -10,13 +10,18 @@ use yii\helpers\Html;
 $orderColumnUrl = \yii\helpers\Url::to(['column-order']);
 $modelId = (empty($model->id)) ? 0 : $model->id;
 $script = <<<JavaScript
-    $("input[id$='columnsorder']").val($('#sortable-form').serialize());
-    $( "#sortable" ).sortable({
-        update: function(event, ui) {
-            $("input[id$='columnsorder']").val($('#sortable-form').serialize());
-        }
+$("input[id$='columnsorder']").val($('#sortable-form').serialize());
+$( "#sortable" ).sortable({
+    update: function(event, ui) {
+        $("input[id$='columnsorder']").val($('#sortable-form').serialize());
+        changeOrderNumeration();
+    }
+});
+function changeOrderNumeration() {
+    $.each($('#sortable .order-numeration'), function(index, item){
+        $(this).html(index+1+'.');
     });
-
+}
 JavaScript;
 $this->registerJs($script);
 $fields[0]['firstCol'] = [
@@ -56,8 +61,9 @@ $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'colum
 
         <form id="sortable-form">
             <ul id="sortable" class="list-group" style="margin-top: 25px">
-                <?php foreach (json_decode($model->columnsOrder) as $key => $label): ?>
+                <?php $i = 1; foreach (json_decode($model->columnsOrder) as $key => $label): ?>
                     <li class="list-group-item">
+                        <span class="order-numeration"><?= $i++; ?>.</span>
                         <?= $label ?>
                         <?= Html::input('hidden', $key, $label); ?>
                     </li>
