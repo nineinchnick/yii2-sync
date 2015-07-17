@@ -48,7 +48,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            self::SCENARIO_CSV_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape', 'header'],
+            self::SCENARIO_CSV_PARSER => ['name', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape', 'header'],
         ]);
     }
 

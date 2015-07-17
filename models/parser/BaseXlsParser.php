@@ -55,7 +55,7 @@ class BaseXlsParser extends BaseCsvParser
     public function scenarios()
     {
         return array_merge(parent::scenarios(), [
-            self::SCENARIO_XLS_PARSER => ['name', 'model_class', 'parser_class', 'parser_options', 'firstCol', 'firstRow', 'sheet', 'header', 'columnsOrder'],
+            self::SCENARIO_XLS_PARSER => ['name', 'parser_class', 'parser_options', 'firstCol', 'firstRow', 'sheet', 'header', 'columnsOrder'],
         ]);
 
     }

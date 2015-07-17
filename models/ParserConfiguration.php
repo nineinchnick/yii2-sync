@@ -16,7 +16,6 @@ use yii\base\NotSupportedException;
  *
  * @property integer $id
  * @property string $name
- * @property string $model_class
  * @property string $parser_class
  * @property jsonb $parser_options
  * @property boolean $is_disabled
@@ -31,7 +30,7 @@ use yii\base\NotSupportedException;
  */
 class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 {
-    protected $_mainAttributes = ['name', 'model_class', 'parser_class', 'parser_options'];
+    protected $_mainAttributes = ['name', 'parser_class', 'parser_options'];
 
     /**
      * @inheritdoc
@@ -47,20 +46,15 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'model_class', 'parser_class', 'parser_options'], 'trim'],
-            [['name', 'model_class', 'parser_class', 'parser_options'], 'default'],
-            [['name', 'model_class', 'parser_class'], 'required'],
-            [['model_class'], function ($attribute, $params) {
-                if (!class_exists($this->$attribute) || !(new $this->$attribute) instanceof \yii\db\ActiveRecord) {
-                    $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Class must be a valid AR model class.'));
-                }
-            }],
+            [['name', 'parser_class', 'parser_options'], 'trim'],
+            [['name', 'parser_class', 'parser_options'], 'default'],
+            [['name', 'parser_class'], 'required'],
             [['parser_class'], function ($attribute, $params) {
                 if (!class_exists($this->$attribute) || !(new $this->$attribute) instanceof self) {
                     $this->addError($attribute, Yii::t('nineinchnick/sync/app', 'Parser class must extend from Parser model.'));
                 }
             }],
-            [['name', 'model_class', 'parser_class'], 'string', 'max' => 255],
+            [['name', 'parser_class'], 'string', 'max' => 255],
         ];
     }
 
@@ -72,7 +66,6 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
         return [
             'id' => Yii::t('nineinchnick/sync/models', 'ID'),
             'name' => Yii::t('nineinchnick/sync/models', 'Name'),
-            'model_class' => Yii::t('nineinchnick/sync/models', 'Model Class'),
             'parser_class' => Yii::t('nineinchnick/sync/models', 'Parser Class'),
             'parser_options' => Yii::t('nineinchnick/sync/models', 'Parser Options'),
             'is_disabled' => Yii::t('nineinchnick/sync/models', 'Is Disabled'),

@@ -16,7 +16,6 @@ class m150622_112220_base extends Migration
         $this->createTable("{$this->schemaName}.{{%parser_configuration}}", [
             'id'             => 'pk',
             'name'           => 'string NOT NULL',
-            'model_class'    => 'string NOT NULL',
             'parser_class'   => 'string NOT NULL',
             'parser_options' => 'jsonb',
             'is_disabled'    => 'boolean NOT NULL DEFAULT FALSE',
