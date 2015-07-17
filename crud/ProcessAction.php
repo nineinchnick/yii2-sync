@@ -8,6 +8,7 @@ namespace nineinchnick\sync\crud;
 
 use netis\utils\crud\Action;
 use nineinchnick\sync\models\File;
+use nineinchnick\sync\models\search\Message;
 use Yii;
 use yii\db\Transaction;
 use yii\helpers\Url;
@@ -48,7 +49,13 @@ class ProcessAction extends Action
                 $success = $file->transfer();
             }
             if ($success && $file->processed_on === null) {
-                $success = $model->parserConfiguration->process($file);
+                try {
+                    $success = $model->parserConfiguration->process($file);
+                } catch (Yii\Base\Exception $e) {
+                    $message = $e->getMessage();
+                    $fileId = $file->id;
+                    $success = false;
+                }
             }
             if ($success && $file->acknowledged_on === null) {
                 $success = $model->parserConfiguration->acknowledge($file);
@@ -68,6 +75,11 @@ class ProcessAction extends Action
             $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
             $trx->rollBack();
         }
+        $messageModel = new Message();
+        $messageModel->transaction_id =$id;
+        $messageModel->file_id = $fileId;
+        $messageModel->message = $message;
+        $messageModel->save();
 
         $response->getHeaders()->set('Location', Url::toRoute([$this->indexAction], true));
     }
