@@ -66,7 +66,8 @@ class m150622_112220_base extends Migration
 
         $indexes = [
             'parser_configurations' => [
-                ['class'],
+                ['parser_class'],
+                ['is_disabled'],
                 ['author_id'],
             ],
             'transactions' => [
