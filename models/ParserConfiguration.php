@@ -12,7 +12,7 @@ use nineinchnick\sync\models\query\ParserConfigurationQuery;
 use yii\base\NotSupportedException;
 
 /**
- * This is the model class for table "{{%sync.parser_configuration}}".
+ * This is the model class for table "{{%sync.parser_configurations}}".
  *
  * @property integer $id
  * @property string $name
@@ -37,7 +37,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%sync.parser_configuration}}';
+        return '{{%sync.parser_configurations}}';
     }
 
     /**
