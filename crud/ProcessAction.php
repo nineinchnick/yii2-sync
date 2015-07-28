@@ -52,8 +52,15 @@ class ProcessAction extends Action
                 try {
                     $success = $model->parserConfiguration->process($file);
                 } catch (Yii\Base\Exception $e) {
-                    $message = Yii::t('nineinchnick/sync/app', 'Method returned exception type {type} with message {message}', ['type' => get_class($e), 'message' => $e->getMessage()]);
-                    $fileId = $file->id;
+                    $message = Yii::t('nineinchnick/sync/app', 'Method returned exception type {type} with message {message}', [
+                        'type' => get_class($e),
+                        'message' => $e->getMessage(),
+                    ]);
+                    $messageModel = new Message();
+                    $messageModel->transaction_id = $id;
+                    $messageModel->file_id = $file->id;
+                    $messageModel->message = $message;
+                    $messageModel->save();
                     $success = false;
                 }
             }
@@ -75,11 +82,6 @@ class ProcessAction extends Action
             $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
             $trx->rollBack();
         }
-        $messageModel = new Message();
-        $messageModel->transaction_id =$id;
-        $messageModel->file_id = $fileId;
-        $messageModel->message = $message;
-        $messageModel->save();
 
         $response->getHeaders()->set('Location', Url::toRoute([$this->indexAction], true));
     }
