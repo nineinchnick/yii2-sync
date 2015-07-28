@@ -10,21 +10,26 @@ namespace nineinchnick\sync\crud;
 
 use netis\utils\crud\UpdateAction;
 use nineinchnick\sync\models\parser\BaseCsvParser;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Yii;
 
 class CsvParserAction extends UpdateAction
 {
 
-    public $parser = 'app\models\CsvParser';
     public $scenario = BaseCsvParser::SCENARIO_CSV_PARSER;
-    public $modelClass = 'nineinchnick\sync\models\parser\BaseCsvParser';
 
     /**
      * @inheritdoc
      */
     protected function initModel($id)
     {
+        if(empty($this->controller->module->parserList[$this->controller->action->id])){
+            throw new InvalidParameterException(Yii::t('nineinchnick/sync/app', 'Parser has to be set.'));
+        }
+        $parserClass = $this->controller->module->parserList[$this->controller->action->id];
+        $this->modelClass = $parserClass;
         $model = parent::initModel($id);
-        $model->parser_class = $this->parser;
+        $model->parser_class = $parserClass;
         $model->scenario = $this->scenario;
         return $model;
     }

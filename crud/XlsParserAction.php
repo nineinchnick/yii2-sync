@@ -13,9 +13,7 @@ use Yii;
 class XlsParserAction extends CsvParserAction
 {
 
-    public $parser = 'app\models\OrderXlsParser';
     public $scenario = BaseXlsParser::SCENARIO_XLS_PARSER;
-    public $modelClass = 'nineinchnick\sync\models\parser\BaseXlsParser';
 
     /**
      * @inheritdoc
