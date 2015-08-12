@@ -72,12 +72,7 @@ class BaseXlsParser extends BaseCsvParser
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
         //  Loop through each row of the worksheet
-        $data = [];
-        for ($row = $firstRow; $row <= $highestRow; $row++) {
-            //  Read a row of data into an array
-            $rowData = $sheet->rangeToArray($firstCol . $row . ':' . $highestColumn . $row);
-            $data[] = $rowData[0];
-        }
+        $data = $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow);
         unlink($fileName);
         return $data;
     }
@@ -88,7 +83,12 @@ class BaseXlsParser extends BaseCsvParser
     public function beforeSave($insert)
     {
         parse_str($this->columnsOrder, $columnOrder);
-        $this->columnsOrder = json_encode($columnOrder);
+        $defaultColumns = $this->getDefaultColumns();
+        $this->columnsOrder = [];
+        foreach ($columnOrder as $column) {
+            $this->columnsOrder[$column] = $defaultColumns[$column];
+        }
+        $this->columnsOrder = json_encode($this->columnsOrder);
         return parent::beforeSave($insert);
     }
 
@@ -107,8 +107,9 @@ class BaseXlsParser extends BaseCsvParser
         $columnNames = array_keys($columnsOrder);
         if ($header !== null) {
             foreach ($header as $key) {
-                $index = array_search($key, $columnNames);
-                $attributes[$key] = $fields[$index];
+                if (($index = array_search($key, $columnNames)) !== false) {
+                    $attributes[$key] = $fields[$index];
+                }
             }
         } else {
             foreach ($columnNames as $index => $key) {

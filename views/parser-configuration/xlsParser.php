@@ -48,6 +48,7 @@ $fields[0]['header'] = [
 $fields[0]['parser_options'] = Html::activeHiddenInput($model, 'parser_options');
 $fields[0]['parser_class'] = Html::activeHiddenInput($model, 'parser_class');
 $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'columnsOrder');
+
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -64,9 +65,9 @@ $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'colum
             <ul id="sortable" class="list-group" style="margin-top: 25px">
                 <?php $i = 1; foreach (json_decode($model->columnsOrder) as $key => $label): ?>
                     <li class="list-group-item">
-                        <span class="order-numeration"><?= $i++; ?>.</span>
+                        <span class="order-numeration"><?= $i; ?>.</span>
                         <?= $key . ' - ' . $label ?>
-                        <?= Html::input('hidden', $key, $label); ?>
+                        <?= Html::input('hidden', 'c' . $i++, $key); ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
