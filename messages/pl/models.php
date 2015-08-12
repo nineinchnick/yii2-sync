@@ -70,6 +70,7 @@ return [
     'Transaction' => 'Transakcja',
     'Transaction ID' => 'ID transakcji',
     'Transactions' => 'Transakcje',
+    'Type' => 'Rodzaj',
     'Update File' => 'Aktualizuj plik',
     'Update Message' => 'Aktualizuj wiadomość',
     'Update Parser Configuration' => 'Aktualizuj konfigurację parsera',

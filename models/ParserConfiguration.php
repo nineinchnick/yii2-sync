@@ -218,18 +218,19 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     public function afterFind()
     {
         $parserOptions = json_decode($this->parser_options, true);
+        if (!is_array($parserOptions)) {
+            return parent::afterFind();
+        }
         $attributeLabels = $this->attributeLabels();
         $newOptions = [];
-        if (is_array($parserOptions)) {
-            foreach ($parserOptions as $option => $value) {
-                //fill inputs;
-                $this->$option = $value;
-                //format parserOptions
-                $newOptions[$attributeLabels[$option]] = $attributeLabels[$option] . ': ' . $value;
+        foreach ($parserOptions as $option => $value) {
+            //fill inputs;
+            $this->$option = $value;
+            //format parserOptions
+            $newOptions[$attributeLabels[$option]] = $attributeLabels[$option] . ': ' . $value;
 
-            }
-            $this->parser_options = join('<br>', $newOptions);
         }
+        $this->parser_options = implode('<br>', $newOptions);
         return parent::afterFind();
     }
 }

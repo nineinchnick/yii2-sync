@@ -39,6 +39,11 @@ $fields[0]['sheet'] = [
     'attribute' => 'sheet',
     'arguments' => [],
 ];
+$fields[0]['header'] = [
+    'formMethod' => 'checkbox',
+    'attribute' => 'header',
+    'arguments' => [],
+];
 $fields[0]['parser_options'] = Html::activeHiddenInput($model, 'parser_options');
 $fields[0]['parser_class'] = Html::activeHiddenInput($model, 'parser_class');
 $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'columnsOrder');
@@ -59,7 +64,7 @@ $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'colum
                 <?php $i = 1; foreach (json_decode($model->columnsOrder) as $key => $label): ?>
                     <li class="list-group-item">
                         <span class="order-numeration"><?= $i++; ?>.</span>
-                        <?= $label ?>
+                        <?= $key . ' - ' . $label ?>
                         <?= Html::input('hidden', $key, $label); ?>
                     </li>
                 <?php endforeach; ?>

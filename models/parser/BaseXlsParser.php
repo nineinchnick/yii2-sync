@@ -29,7 +29,6 @@ class BaseXlsParser extends BaseCsvParser
         return array_merge(parent::rules(), [
             [['header', 'firstCol', 'firstRow', 'header', 'columnsOrder'], 'trim', 'on' => self::SCENARIO_XLS_PARSER],
             [['header', 'firstCol', 'firstRow', 'header', 'columnsOrder'], 'default', 'on' => self::SCENARIO_XLS_PARSER],
-            [['header', 'firstCol', 'firstRow', 'header', 'columnsOrder'], 'safe'],
             [['header'], 'boolean', 'on' => self::SCENARIO_XLS_PARSER],
             [['firstCol'], 'string', 'on' => self::SCENARIO_XLS_PARSER],
             [['firstRow', 'sheet'], 'integer', 'on' => self::SCENARIO_XLS_PARSER],
@@ -56,15 +55,15 @@ class BaseXlsParser extends BaseCsvParser
      */
     public function scenarios()
     {
-        return array_merge(parent::scenarios(), [
-            self::SCENARIO_XLS_PARSER => ['name', 'parser_class', 'parser_options', 'firstCol', 'firstRow', 'sheet', 'header', 'columnsOrder'],
+        $scenarios = parent::scenarios();
+        return array_merge($scenarios, [
+            self::SCENARIO_XLS_PARSER => $scenarios[self::SCENARIO_DEFAULT],
         ]);
-
     }
 
     /**
      * @param $uploadedFile
-     * @param $parserConfiguration
+     * @param \nineinchnick\sync\models\ParserConfiguration $parserConfiguration
      * @return array
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
@@ -89,10 +88,10 @@ class BaseXlsParser extends BaseCsvParser
         for ($row = $firstRow; $row <= $highestRow; $row++) {
             //  Read a row of data into an array
             $rowData = $sheet->rangeToArray($firstCol . $row . ':' . $highestColumn . $row);
-            $data[] = join("\t", $rowData[0]);
+            $data[] = $rowData[0];
         }
         unlink($fileName);
-        return join("\r\n", $data);
+        return $data;
     }
 
     /**
@@ -106,29 +105,6 @@ class BaseXlsParser extends BaseCsvParser
     }
 
     /**
-     * @inheritdoc
-     */
-    public function afterFind()
-    {
-        //If view or index action normalize column order to display in line
-        if (in_array(Yii::$app->controller->action->id, ['view', 'index'])) {
-            $parserOptions = json_decode($this->parser_options, true);
-            if (is_array($parserOptions) && isset($parserOptions['columnsOrder'])) {
-                $columnsOrder = json_decode($parserOptions['columnsOrder']);
-                $order = [];
-                $index = 1;
-                foreach ($columnsOrder as $column) {
-                    $order[$index] = $index . ': ' . $column;
-                    $index++;
-                }
-                $parserOptions['columnsOrder'] = join(', ', $order);
-            }
-            $this->parser_options = json_encode($parserOptions);
-        }
-        parent::afterFind();
-    }
-
-    /**
      * Get proper index of attribute column
      *
      * @param array $fields
@@ -136,7 +112,7 @@ class BaseXlsParser extends BaseCsvParser
      * @param string $columnsOrder
      * @return array
      */
-    public function prepareAttributes($fields, $header, $columnsOrder)
+    protected function prepareAttributes($fields, $header, $columnsOrder)
     {
         $attributes = [];
         $columnsOrder = json_decode($columnsOrder);
@@ -153,5 +129,4 @@ class BaseXlsParser extends BaseCsvParser
         }
         return $attributes;
     }
-
 }

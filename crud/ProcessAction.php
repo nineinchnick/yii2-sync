@@ -33,6 +33,7 @@ class ProcessAction extends Action
      */
     public function run($id)
     {
+        /** @var \nineinchnick\sync\models\Transaction $model */
         $model = $this->findModel($id);
 
         if ($this->checkAccess) {
@@ -46,7 +47,7 @@ class ProcessAction extends Action
         $success = true;
         foreach ($files as $file) {
             if ($file->sent_on === null) {
-                $success = $file->transfer();
+                $success = $model->parserConfiguration->transfer($file);
             }
             if ($success && $file->processed_on === null) {
                 try {
@@ -57,9 +58,9 @@ class ProcessAction extends Action
                         'message' => $e->getMessage(),
                     ]);
                     $messageModel = new Message();
-                    $messageModel->transaction_id = $id;
                     $messageModel->file_id = $file->id;
                     $messageModel->message = $message;
+                    $messageModel->type = Message::TYPE_ERROR;
                     $messageModel->save();
                     $success = false;
                 }

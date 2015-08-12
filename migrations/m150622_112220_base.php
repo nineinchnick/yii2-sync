@@ -58,11 +58,14 @@ class m150622_112220_base extends Migration
         $this->execute("COMMENT ON COLUMN $this->schemaName.{{%files}}.request_id IS "
             . "'null if request, not null if response'");
         $this->createTable("{$this->schemaName}.{{%messages}}", [
-            'id'             => 'serial NOT NULL',
+            'id'             => 'pk',
             'transaction_id' => "integer NOT NULL REFERENCES {$this->schemaName}.{{%transactions}} (id) $restrict",
             'file_id'        => "integer REFERENCES {$this->schemaName}.{{%files}} (id) $cascade",
             'message'        => 'text NOT NULL',
+            'type'           => 'integer',
         ]);
+        $this->execute("COMMENT ON COLUMN $this->schemaName.{{%messages}}.type IS "
+            . "'0 - info, 1 - notice, 2 - warning, 3 - error, 4 - debug'");
 
         $indexes = [
             'parser_configurations' => [

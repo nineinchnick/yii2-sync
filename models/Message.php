@@ -12,12 +12,19 @@ use nineinchnick\sync\models\query\MessageQuery;
  * @property integer $transaction_id
  * @property integer $file_id
  * @property string $message
+ * @property integer $type
  *
  * @property File $file
  * @property Transaction $transaction
  */
 class Message extends \netis\utils\crud\ActiveRecord
 {
+    const TYPE_INFO = 0;
+    const TYPE_NOTICE = 1;
+    const TYPE_WARNING = 2;
+    const TYPE_ERROR = 3;
+    const TYPE_DEBUG = 4;
+
     /**
      * @inheritdoc
      */
@@ -32,10 +39,10 @@ class Message extends \netis\utils\crud\ActiveRecord
     public function rules()
     {
         return [
-            [['transaction_id', 'file_id', 'message'], 'trim'],
-            [['transaction_id', 'file_id', 'message'], 'default'],
+            [['transaction_id', 'file_id', 'message', 'type'], 'trim'],
+            [['transaction_id', 'file_id', 'message', 'type'], 'default'],
             [['transaction_id', 'message'], 'required'],
-            [['transaction_id', 'file_id'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF]
+            [['transaction_id', 'file_id', 'type'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF]
         ];
     }
 
@@ -49,6 +56,7 @@ class Message extends \netis\utils\crud\ActiveRecord
             'transaction_id' => Yii::t('nineinchnick/sync/models', 'Transaction ID'),
             'file_id' => Yii::t('nineinchnick/sync/models', 'File ID'),
             'message' => Yii::t('nineinchnick/sync/models', 'Message'),
+            'type' => Yii::t('nineinchnick/sync/models', 'Type'),
         ];
     }
 

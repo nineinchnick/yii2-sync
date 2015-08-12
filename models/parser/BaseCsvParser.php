@@ -48,16 +48,14 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
      */
     public function scenarios()
     {
-        return array_merge(parent::scenarios(), [
-            self::SCENARIO_CSV_PARSER => ['name', 'parser_class', 'parser_options', 'length', 'delimiter', 'enclosure', 'escape', 'header'],
+        $scenarios = parent::scenarios();
+        return array_merge($scenarios, [
+            self::SCENARIO_CSV_PARSER => $scenarios[self::SCENARIO_DEFAULT],
         ]);
     }
 
     /**
-     * Either uploads a prepared file or downloads next file from a remote service.
-     * Returns bool false if no files are available.
-     * @param \nineinchnick\sync\models\File $file
-     * @return bool bool true when uploading, bool false when downloading and no files are available
+     * @inheritdoc
      */
     public function transfer($file = null)
     {
@@ -67,10 +65,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
     }
 
     /**
-     * Parses the files contents.
-     * @param \nineinchnick\sync\models\File $file
-     * @return bool
-     * @throws NotSupportedException
+     * @inheritdoc
      */
     public function process($file)
     {
@@ -78,9 +73,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
     }
 
     /**
-     * Acknowledges the processing of a downloaded file in a remote service.
-     * @param \nineinchnick\sync\models\File $file
-     * @return bool
+     * @inheritdoc
      */
     public function acknowledge($file)
     {

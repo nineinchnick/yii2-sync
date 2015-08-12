@@ -37,12 +37,11 @@ class ExampleXlsParser extends BaseXlsParser
         $configuration = $file->parserConfiguration;
         $content = $this->readXls(base64_decode($file->content), $configuration);
         $header = null;
-        foreach (explode("\r\n", $content) as $key => $line) {
+        foreach ($content as $key => $fields) {
             if (!empty($configuration->header) && $key === 0) {
-                $header = explode("\t", $line);
+                $header = $fields;
                 continue;
             }
-            $fields = explode("\t", $line);
             $attributes = $this->prepareAttributes($fields, $header, $configuration->columnsOrder);
             //process
         }
