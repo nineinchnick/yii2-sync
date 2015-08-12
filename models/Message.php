@@ -41,7 +41,7 @@ class Message extends \netis\utils\crud\ActiveRecord
         return [
             [['transaction_id', 'file_id', 'message', 'type'], 'trim'],
             [['transaction_id', 'file_id', 'message', 'type'], 'default'],
-            [['transaction_id', 'message'], 'required'],
+            [['message'], 'required'],
             [['transaction_id', 'file_id', 'type'], 'integer', 'min' => -0x80000000, 'max' => 0x7FFFFFFF]
         ];
     }
