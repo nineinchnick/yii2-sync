@@ -9,7 +9,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public $defaultRoute = 'transaction';
 
     public $controllerMap = [
-        'parserconfiguration' => [
+        'parser-configuration' => [
             'class' => 'netis\utils\crud\ActiveController',
             'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
             'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',

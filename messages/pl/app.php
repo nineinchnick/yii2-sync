@@ -17,7 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Failed to save uploaded file.' => 'Nie udało się załadować pliku.',
     'Method returned exception type {type} with message {message}' => 'Metoda zwróciła wyjątek typu {type} z komunikatem {message}',
-    'Process' => 'Proces',
-    'Set your column order' => 'Ustaw kolejność kolumn',
+    'Parser class must extend from Parser model.' => 'Klasa parsera musi rozszerzać model Parser.',
+    'Parser has to be set.' => 'Parser musi być ustawiony.',
+    'Process' => 'Przetwarzaj',
+    'Set your column order' => 'Podaj porządek kolumn',
 ];
