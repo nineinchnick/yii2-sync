@@ -132,17 +132,24 @@ class BaseXlsParser extends BaseCsvParser
      * Get proper index of attribute column
      *
      * @param array $fields
+     * @param array $header
      * @param string $columnsOrder
      * @return array
      */
-    public function prepareAttributes($fields, $columnsOrder)
+    public function prepareAttributes($fields, $header, $columnsOrder)
     {
         $attributes = [];
-        $index = 0;
         $columnsOrder = json_decode($columnsOrder);
-        foreach ($columnsOrder as $key => $label) {
-            $attributes[$key] = $fields[$index];
-            $index++;
+        $columnNames = array_keys($columnsOrder);
+        if ($header !== null) {
+            foreach ($header as $key) {
+                $index = array_search($key, $columnNames);
+                $attributes[$key] = $fields[$index];
+            }
+        } else {
+            foreach ($columnNames as $index => $key) {
+                $attributes[$key] = $fields[$index];
+            }
         }
         return $attributes;
     }

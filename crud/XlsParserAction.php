@@ -12,8 +12,18 @@ use Yii;
 
 class XlsParserAction extends CsvParserAction
 {
-
-    public $scenario = BaseXlsParser::SCENARIO_XLS_PARSER;
+    /**
+     * @var string the scenario to be assigned to a new model before it is validated and updated.
+     */
+    public $createScenario = BaseXlsParser::SCENARIO_XLS_PARSER;
+    /**
+     * @var string the scenario to be assigned to the existing model before it is validated and updated.
+     */
+    public $updateScenario = BaseXlsParser::SCENARIO_XLS_PARSER;
+    /**
+     * @var string view name used when rendering a HTML response, defaults to current action id
+     */
+    public $viewName = 'xlsParser';
 
     /**
      * @inheritdoc
@@ -22,7 +32,7 @@ class XlsParserAction extends CsvParserAction
     {
         $model = parent::initModel($id);
         if (!Yii::$app->getRequest()->getIsPost() && is_null($model->columnsOrder)) {
-            $model->columnsOrder = json_encode($model->getDefaultColumnsOrder());
+            $model->columnsOrder = json_encode($model->getDefaultColumns());
         }
         return $model;
     }

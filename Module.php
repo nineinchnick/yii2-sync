@@ -8,43 +8,50 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 
     public $defaultRoute = 'transaction';
 
-    public $controllerMap = [
-        'parser-configuration' => [
-            'class' => 'netis\utils\crud\ActiveController',
-            'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
-            'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
-            'actionsClassMap' => [
-                'csvParser' => 'nineinchnick\sync\crud\CsvParserAction',
-                'xlsParser' => 'nineinchnick\sync\crud\XlsParserAction',
-            ],
-        ],
-        'transaction' => [
-            'class' => 'nineinchnick\sync\crud\TransactionController',
-            'modelClass' => 'nineinchnick\sync\models\Transaction',
-            'searchModelClass' => 'nineinchnick\sync\models\search\Transaction',
-            'actionsClassMap' => [
-                'update' => 'nineinchnick\sync\crud\TransactionUpdateAction',
-                'process' => 'nineinchnick\sync\crud\ProcessAction',
-            ],
-        ],
-        'file' => [
-            'class' => 'netis\utils\crud\ActiveController',
-            'modelClass' => 'nineinchnick\sync\models\File',
-            'searchModelClass' => 'nineinchnick\sync\models\search\File',
-        ],
-        'message' => [
-            'class' => 'netis\utils\crud\ActiveController',
-            'modelClass' => 'nineinchnick\sync\models\Message',
-            'searchModelClass' => 'nineinchnick\sync\models\search\Message',
-        ],
-    ];
+    public $controllerMap = [];
 
-    public $parserList;
+    public function getDefaultControllerMap()
+    {
+        return [
+            'parser-configuration' => [
+                'class' => 'netis\utils\crud\ActiveController',
+                'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
+                'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
+                'actionsClassMap' => [
+                    'csvParser' => [
+                        'class' => 'nineinchnick\sync\crud\CsvParserAction',
+                    ],
+                    'xlsParser' => [
+                        'class' => 'nineinchnick\sync\crud\XlsParserAction',
+                    ],
+                ],
+            ],
+            'transaction' => [
+                'class' => 'nineinchnick\sync\crud\TransactionController',
+                'modelClass' => 'nineinchnick\sync\models\Transaction',
+                'searchModelClass' => 'nineinchnick\sync\models\search\Transaction',
+                'actionsClassMap' => [
+                    'update' => 'nineinchnick\sync\crud\TransactionUpdateAction',
+                    'process' => 'nineinchnick\sync\crud\ProcessAction',
+                ],
+            ],
+            'file' => [
+                'class' => 'netis\utils\crud\ActiveController',
+                'modelClass' => 'nineinchnick\sync\models\File',
+                'searchModelClass' => 'nineinchnick\sync\models\search\File',
+            ],
+            'message' => [
+                'class' => 'netis\utils\crud\ActiveController',
+                'modelClass' => 'nineinchnick\sync\models\Message',
+                'searchModelClass' => 'nineinchnick\sync\models\search\Message',
+            ],
+        ];
+    }
 
     public function bootstrap($app)
     {
         $array = array_merge([
-            'nineinchnick\sync\models\ParserConfiguration' => '/sync/parserconfiguration',
+            'nineinchnick\sync\models\ParserConfiguration' => '/sync/parser-configuration',
             'nineinchnick\sync\models\Transaction' => '/sync/transaction',
             'nineinchnick\sync\models\File' => '/sync/file',
             'nineinchnick\sync\models\Message' => '/sync/message',
@@ -65,6 +72,8 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     public function init()
     {
         parent::init();
+
+        $this->controllerMap = array_merge($this->getDefaultControllerMap(), $this->controllerMap);
     }
 
     public static function t($category, $message, $params = [], $language = null)
