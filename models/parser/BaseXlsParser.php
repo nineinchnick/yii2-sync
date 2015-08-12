@@ -11,12 +11,14 @@ use Yii;
 
 class BaseXlsParser extends BaseCsvParser
 {
+    const SCENARIO_XLS_PARSER = 'xlsParser';
+
     public $firstCol;
     public $firstRow;
     public $sheet;
     public $header;
     public $columnsOrder;
-    const SCENARIO_XLS_PARSER = 'xlsParser';
+
     protected $_optionFields = [];
 
     /**
@@ -114,10 +116,10 @@ class BaseXlsParser extends BaseCsvParser
             if (is_array($parserOptions) && isset($parserOptions['columnsOrder'])) {
                 $columnsOrder = json_decode($parserOptions['columnsOrder']);
                 $order = [];
-                $i = 1;
+                $index = 1;
                 foreach ($columnsOrder as $column) {
-                    $order[$i] = $i . ': ' . $column;
-                    $i++;
+                    $order[$index] = $index . ': ' . $column;
+                    $index++;
                 }
                 $parserOptions['columnsOrder'] = join(', ', $order);
             }
@@ -130,7 +132,7 @@ class BaseXlsParser extends BaseCsvParser
      * Get proper index of attribute column
      *
      * @param array $fields
-     * @param json $columnsOrder
+     * @param string $columnsOrder
      * @return array
      */
     public function prepareAttributes($fields, $columnsOrder)

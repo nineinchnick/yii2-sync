@@ -17,7 +17,7 @@ use yii\base\NotSupportedException;
  * @property integer $id
  * @property string $name
  * @property string $parser_class
- * @property jsonb $parser_options
+ * @property string $parser_options
  * @property boolean $is_disabled
  * @property integer $author_id
  * @property integer $editor_id
@@ -169,7 +169,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
      * Either uploads a prepared file or downloads next file from a remote service.
      * Returns bool false if no files are available.
      * @param File $file
-     * @return File|bool bool true when uploading, bool false when downloading and no files are available
+     * @return bool bool true when uploading, bool false when downloading and no files are available
      * @throws NotSupportedException
      */
     public function transfer($file = null)
@@ -179,7 +179,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 
     /**
      * Parses the files contents.
-     * @param $file
+     * @param File $file
      * @throws NotSupportedException
      */
     public function process($file)
@@ -189,7 +189,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
 
     /**
      * Acknowledges the processing of a downloaded file in a remote service.
-     * @param $file
+     * @param File $file
      * @throws NotSupportedException
      */
     public function acknowledge($file)

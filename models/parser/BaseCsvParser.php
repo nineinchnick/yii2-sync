@@ -8,6 +8,7 @@
 namespace nineinchnick\sync\models\parser;
 
 use Yii;
+use yii\base\NotSupportedException;
 
 class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 {
@@ -55,8 +56,8 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
     /**
      * Either uploads a prepared file or downloads next file from a remote service.
      * Returns bool false if no files are available.
-     * @param File $file
-     * @return File|bool bool true when uploading, bool false when downloading and no files are available
+     * @param \nineinchnick\sync\models\File $file
+     * @return bool bool true when uploading, bool false when downloading and no files are available
      */
     public function transfer($file = null)
     {
@@ -67,9 +68,9 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 
     /**
      * Parses the files contents.
-     * @param $file
+     * @param \nineinchnick\sync\models\File $file
      * @return bool
-     * @throws Exception
+     * @throws NotSupportedException
      */
     public function process($file)
     {
@@ -78,7 +79,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 
     /**
      * Acknowledges the processing of a downloaded file in a remote service.
-     * @param $file
+     * @param \nineinchnick\sync\models\File $file
      * @return bool
      */
     public function acknowledge($file)
