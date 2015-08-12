@@ -53,6 +53,8 @@ class ProcessAction extends Action
                 try {
                     $success = $model->parserConfiguration->process($file);
                 } catch (Yii\Base\Exception $e) {
+                    $trx->rollBack();
+                    $trx = null;
                     $message = Yii::t('nineinchnick/sync/app', 'Method returned exception type {type} with message {message}', [
                         'type' => get_class($e),
                         'message' => $e->getMessage(),
@@ -81,7 +83,9 @@ class ProcessAction extends Action
             $trx->commit();
         } else {
             $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
-            $trx->rollBack();
+            if ($trx !== null) {
+                $trx->rollBack();
+            }
         }
 
         $response->getHeaders()->set('Location', Url::toRoute([$this->indexAction], true));

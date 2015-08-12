@@ -103,7 +103,7 @@ class BaseXlsParser extends BaseCsvParser
     protected function prepareAttributes($fields, $header, $columnsOrder)
     {
         $attributes = [];
-        $columnsOrder = json_decode($columnsOrder);
+        $columnsOrder = (array)json_decode($columnsOrder);
         $columnNames = array_keys($columnsOrder);
         if ($header !== null) {
             foreach ($header as $key) {
