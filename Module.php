@@ -20,9 +20,11 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 'actionsClassMap' => [
                     'csvParser' => [
                         'class' => 'nineinchnick\sync\crud\CsvParserAction',
+                        'verbs' => ['GET', 'POST'],
                     ],
                     'xlsParser' => [
                         'class' => 'nineinchnick\sync\crud\XlsParserAction',
+                        'verbs' => ['GET', 'POST'],
                     ],
                 ],
             ],

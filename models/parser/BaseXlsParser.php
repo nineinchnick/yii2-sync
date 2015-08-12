@@ -27,9 +27,8 @@ class BaseXlsParser extends BaseCsvParser
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['header', 'firstCol', 'firstRow', 'header', 'columnsOrder'], 'trim', 'on' => self::SCENARIO_XLS_PARSER],
-            [['header', 'firstCol', 'firstRow', 'header', 'columnsOrder'], 'default', 'on' => self::SCENARIO_XLS_PARSER],
-            [['header'], 'boolean', 'on' => self::SCENARIO_XLS_PARSER],
+            [['firstCol', 'firstRow', 'sheet', 'header', 'columnsOrder'], 'trim', 'on' => self::SCENARIO_XLS_PARSER],
+            [['firstCol', 'firstRow', 'sheet', 'header', 'columnsOrder'], 'default', 'on' => self::SCENARIO_XLS_PARSER],
             [['firstCol'], 'string', 'on' => self::SCENARIO_XLS_PARSER],
             [['firstRow', 'sheet'], 'integer', 'on' => self::SCENARIO_XLS_PARSER],
             [['header'], 'boolean', 'on' => self::SCENARIO_XLS_PARSER],
@@ -47,17 +46,6 @@ class BaseXlsParser extends BaseCsvParser
             'sheet' => Yii::t('nineinchnick/sync/models', 'Sheet'),
             'header' => Yii::t('nineinchnick/sync/models', 'Header'),
             'columnsOrder' => Yii::t('nineinchnick/sync/models', 'Columns Order'),
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        return array_merge($scenarios, [
-            self::SCENARIO_XLS_PARSER => $scenarios[self::SCENARIO_DEFAULT],
         ]);
     }
 

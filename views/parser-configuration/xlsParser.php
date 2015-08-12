@@ -24,6 +24,7 @@ function changeOrderNumeration() {
 }
 JavaScript;
 $this->registerJs($script);
+\yii\jui\JuiAsset::register($this);
 $fields[0]['firstCol'] = [
     'formMethod' => 'textInput',
     'attribute' => 'firstCol',

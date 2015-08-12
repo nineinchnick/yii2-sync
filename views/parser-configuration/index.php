@@ -14,14 +14,15 @@
 
 use yii\helpers\Html;
 
-$columns[0]['buttons']['update'] = function ($url, $model) {
-    switch ($model->parser_class) {
-        case 'app\models\CsvParser':
-            $url = ['csvParser', 'id' => $model['id']];
+$controller = $this->context;
+
+$columns[0]['buttons']['update'] = function ($url, $model) use ($controller) {
+    $url = null;
+    foreach ($controller->actionsClassMap as $action => $params) {
+        if ($params['modelClass'] === $model->parser_class) {
+            $url = [$action, 'id' => $model['id']];
             break;
-        case 'app\models\OrderXlsParser':
-            $url = ['xlsParser', 'id' => $model['id']];
-            break;
+        }
     }
     return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
         'title' => Yii::t('yii', 'Update'),
