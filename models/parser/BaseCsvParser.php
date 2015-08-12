@@ -13,9 +13,9 @@ use yii\base\NotSupportedException;
 class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 {
     public $length;
-    public $delimiter;
-    public $enclosure;
-    public $escape;
+    public $delimiter = ',';
+    public $enclosure = '"';
+    public $escape = '\\';
 
     const SCENARIO_CSV_PARSER = 'csvParser';
 

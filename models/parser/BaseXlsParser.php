@@ -13,10 +13,10 @@ class BaseXlsParser extends BaseCsvParser
 {
     const SCENARIO_XLS_PARSER = 'xlsParser';
 
-    public $firstCol;
-    public $firstRow;
-    public $sheet;
-    public $header;
+    public $firstCol = 'A';
+    public $firstRow = 1;
+    public $sheet = 0;
+    public $header = true;
     public $columnsOrder;
 
     protected $_optionFields = [];
