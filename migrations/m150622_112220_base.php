@@ -59,10 +59,11 @@ class m150622_112220_base extends Migration
             . "'null if request, not null if response'");
         $this->createTable("{$this->schemaName}.{{%messages}}", [
             'id'             => 'pk',
-            'transaction_id' => "integer NOT NULL REFERENCES {$this->schemaName}.{{%transactions}} (id) $restrict",
+            'transaction_id' => "integer REFERENCES {$this->schemaName}.{{%transactions}} (id) $restrict",
             'file_id'        => "integer REFERENCES {$this->schemaName}.{{%files}} (id) $cascade",
             'message'        => 'text NOT NULL',
             'type'           => 'integer',
+            "CONSTRAINT {{%messages_transaction_or_file}} CHECK (transaction_id IS NOT NULL OR file_id IS NOT NULL)",
         ]);
         $this->execute("COMMENT ON COLUMN $this->schemaName.{{%messages}}.type IS "
             . "'0 - info, 1 - notice, 2 - warning, 3 - error, 4 - debug'");

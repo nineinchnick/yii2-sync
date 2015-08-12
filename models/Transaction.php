@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  *
  * @property File[] $files
  * @property Message[] $messages
+ * @property Message[] $fileMessages
  * @property \app\models\User $author
  * @property \app\models\User $editor
  * @property ParserConfiguration $parserConfiguration
@@ -91,6 +92,10 @@ class Transaction extends \netis\utils\crud\ActiveRecord
                     'update'   => Yii::t('nineinchnick/sync/models', 'Update Transaction'),
                     'delete'   => Yii::t('nineinchnick/sync/models', 'Delete Transaction'),
                 ],
+                'relationLabels' => [
+                    'messages' => Yii::t('nineinchnick/sync/models', 'Transaction Messages'),
+                    'fileMessages' => Yii::t('nineinchnick/sync/models', 'File Messages'),
+                ],
             ],
             'blameable' => [
                 'class' => 'netis\utils\db\BlameableBehavior',
@@ -113,6 +118,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
         return [
             'files',
             'messages',
+            'fileMessages',
             'author',
             'editor',
             'parserConfiguration',
@@ -133,6 +139,14 @@ class Transaction extends \netis\utils\crud\ActiveRecord
     public function getMessages()
     {
         return $this->hasMany(Message::className(), ['transaction_id' => 'id'])->inverseOf('transaction');
+    }
+
+    /**
+     * @return TransactionQuery
+     */
+    public function getFileMessages()
+    {
+        return $this->hasMany(Message::className(), ['file_id' => 'id'])->via('files');
     }
 
     /**

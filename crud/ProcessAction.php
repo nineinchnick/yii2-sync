@@ -8,8 +8,9 @@ namespace nineinchnick\sync\crud;
 
 use netis\utils\crud\Action;
 use nineinchnick\sync\models\File;
-use nineinchnick\sync\models\search\Message;
+use nineinchnick\sync\models\Message;
 use Yii;
+use yii\base\Exception;
 use yii\db\Transaction;
 use yii\helpers\Url;
 use yii\web\ServerErrorHttpException;
@@ -63,7 +64,11 @@ class ProcessAction extends Action
                     $messageModel->file_id = $file->id;
                     $messageModel->message = $message;
                     $messageModel->type = Message::TYPE_ERROR;
-                    $messageModel->save();
+                    if (!$messageModel->save()) {
+                        throw new Exception('Failed to save error message: '.print_r($messageModel->getErrors(), true));
+                    }
+                    list($key, $flash) = $messageModel->getFlash();
+                    $this->setFlash($key, $flash);
                     $success = false;
                 }
             }
@@ -82,7 +87,9 @@ class ProcessAction extends Action
             $this->setFlash('success', Yii::t('app', 'Record has been successfully processed.'));
             $trx->commit();
         } else {
-            $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
+            if (!Yii::$app->session->hasFlash('error')) {
+                $this->setFlash('error', Yii::t('app', 'Failed to process record.'));
+            }
             if ($trx !== null) {
                 $trx->rollBack();
             }

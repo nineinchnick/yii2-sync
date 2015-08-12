@@ -114,4 +114,19 @@ class Message extends \netis\utils\crud\ActiveRecord
     {
         return new MessageQuery(get_called_class());
     }
+
+    /**
+     * @return array contains flash key and flash message
+     */
+    public function getFlash()
+    {
+        $map = [
+            self::TYPE_INFO => 'success',
+            self::TYPE_NOTICE => 'notice',
+            self::TYPE_WARNING => 'warning',
+            self::TYPE_ERROR => 'error',
+            self::TYPE_DEBUG => 'default',
+        ];
+        return [$map[$this->type], $this->message];
+    }
 }

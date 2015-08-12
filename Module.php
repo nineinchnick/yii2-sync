@@ -41,6 +41,9 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 'class' => 'netis\utils\crud\ActiveController',
                 'modelClass' => 'nineinchnick\sync\models\File',
                 'searchModelClass' => 'nineinchnick\sync\models\search\File',
+                'actionsClassMap' => [
+                    'download' => 'netis\erp\crud\FileAction',
+                ],
             ],
             'message' => [
                 'class' => 'netis\utils\crud\ActiveController',
@@ -76,6 +79,44 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
         parent::init();
 
         $this->controllerMap = array_merge($this->getDefaultControllerMap(), $this->controllerMap);
+
+        $fileFields = function ($action, $context, $model) {
+            /** @var $action \netis\utils\crud\Action */
+            $fields = $action::getDefaultFields($model);
+            foreach ($fields as $key => $field) {
+                if ($field !== 'content') {
+                    continue;
+                }
+                switch ($context) {
+                    case 'grid':
+                        $fields[$key] = [
+                            'attribute' => 'content',
+                            'format'    => 'raw',
+                            'value'     => function ($model, $key, $index, $column) {
+                                /** @var $column \yii\grid\DataColumn */
+                                return $column->grid->formatter->asCrudLink($model, ['data-pjax' => 0], 'download', \Yii::t('nineinchnick/sync/app', 'Download file'));
+                            },
+                        ];
+                        break;
+                    case 'detail':
+                        $fields[$key] = function ($model) {
+                            return [
+                                'attribute' => 'content',
+                                'format'    => 'raw',
+                                'value'     => \Yii::$app->formatter->asCrudLink($model, [], 'download', \Yii::t('nineinchnick/sync/app', 'Download file')),
+                            ];
+                        };
+                        break;
+                    default:
+                        unset($fields[$key]);
+                        break;
+                }
+                break;
+            }
+            return $fields;
+        };
+        $this->controllerMap['file']['actionsClassMap']['index']['fields'] = $fileFields;
+        $this->controllerMap['file']['actionsClassMap']['view']['fields'] = $fileFields;
     }
 
     public static function t($category, $message, $params = [], $language = null)
