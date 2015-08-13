@@ -4,7 +4,7 @@
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  *
- * @var $this yii\web\View
+ * @var $this \netis\utils\web\View
  * @var $searchModel \yii\base\Model
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $columns array
@@ -12,10 +12,8 @@
  * @var $controller netis\utils\crud\ActiveController
  */
 
-use yii\helpers\Url;
-
 $attributes['parser_options']['format'] = 'raw';
-echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . 'view.php', [
+echo $this->renderDefault('view', [
     'model' => $model,
     'relations' => $relations,
     'attributes' => $attributes,

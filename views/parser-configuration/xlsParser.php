@@ -3,6 +3,8 @@
  * @author Patryk Radziszewski <pradziszewski@netis.pl>
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
+ *
+ * @var \netis\utils\web\View $this
  */
 
 use yii\helpers\Html;
@@ -52,7 +54,7 @@ $fields[0]['columnsOrder'] = \yii\helpers\Html::activeHiddenInput($model, 'colum
 ?>
 <div class="row">
     <div class="col-md-6">
-        <?= $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . '_form.php', [
+        <?= $this->renderDefault('_form', [
             'model' => $model,
             'fields' => $fields,
             'relations' => $relations,

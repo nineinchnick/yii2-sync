@@ -1,6 +1,6 @@
 <?php
 
-/* @var $this yii\web\View */
+/* @var $this \netis\utils\web\View */
 /* @var $model yii\db\ActiveRecord */
 /* @var $fields array */
 /* @var $relations array */
@@ -16,7 +16,7 @@ $fields['uploadedFiles'] = [
     'arguments' => [['multiple' => true]],
 ];
 
-echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . '_form.php', [
+echo $this->renderDefault('_form', [
     'model' => $model,
     'fields' => $fields,
     'relations' => $relations,

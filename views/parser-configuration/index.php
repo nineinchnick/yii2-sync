@@ -4,7 +4,7 @@
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  *
- * @var $this yii\web\View
+ * @var $this \netis\utils\web\View
  * @var $searchModel \yii\base\Model
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $columns array
@@ -30,7 +30,7 @@ $columns[0]['buttons']['update'] = function ($url, $model) use ($controller) {
     ]);
 };
 $columns[4]['format'] = 'raw';
-echo $this->renderFile($this->getDefaultViewPath() . DIRECTORY_SEPARATOR . 'index.php', [
+echo $this->renderDefault('index', [
     'searchModel' => $searchModel,
     'searchFields' => $searchFields,
     'dataProvider' => $dataProvider,
