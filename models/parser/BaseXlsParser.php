@@ -106,14 +106,14 @@ class BaseXlsParser extends BaseCsvParser
         $columnsOrder = (array)json_decode($columnsOrder);
         $columnNames = array_keys($columnsOrder);
         if ($header !== null) {
-            foreach ($header as $key) {
-                if (($index = array_search($key, $columnNames)) !== false) {
-                    $attributes[$key] = $fields[$index];
-                }
+            foreach ($fields as $key => $field) {
+                $attributes[$header[$key]] = $field;
             }
         } else {
-            foreach ($columnNames as $index => $key) {
-                $attributes[$key] = $fields[$index];
+            foreach ($fields as $key => $field) {
+                if (isset($columnNames[$key])) {
+                    $attributes[$columnNames[$key]] = $field;
+                }
             }
         }
         return $attributes;
