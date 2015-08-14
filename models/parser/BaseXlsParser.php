@@ -71,8 +71,7 @@ class BaseXlsParser extends BaseCsvParser
         $sheet = $objPHPExcel->getSheet($sheet);
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
-        //  Loop through each row of the worksheet
-        $data = $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow);
+        $data = $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow, null, true, true);
         unlink($fileName);
         return $data;
     }
