@@ -106,7 +106,7 @@ class BaseXlsParser extends BaseCsvParser
         $columnNames = array_keys($columnsOrder);
         if ($header !== null) {
             foreach ($fields as $key => $field) {
-                $attributes[$header[$key]] = $field;
+                $attributes[trim($header[$key])] = $field;
             }
         } else {
             foreach ($fields as $key => $field) {
