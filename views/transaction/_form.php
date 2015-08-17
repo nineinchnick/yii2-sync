@@ -8,6 +8,9 @@
 /* @var $controller netis\utils\crud\ActiveController */
 /* @var $action netis\utils\crud\UpdateAction */
 /* @var $view \netis\utils\web\View */
+/* @var $formOptions array form options, will be merged with defaults */
+/* @var $buttons array */
+/* @var $formBody string if set, allows to override only the form part */
 
 //unset($fields['contractorLogo']);
 $fields['uploadedFiles'] = [
