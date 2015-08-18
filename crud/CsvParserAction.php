@@ -32,6 +32,7 @@ class CsvParserAction extends UpdateAction
     protected function initModel($id)
     {
         $model = parent::initModel($id);
+        $model->parser_class = $this->modelClass;
         if (!Yii::$app->getRequest()->getIsPost() && is_null($model->columnsOrder)) {
             $model->columnsOrder = json_encode($model->getDefaultColumns());
         }
