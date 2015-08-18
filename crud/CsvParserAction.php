@@ -7,7 +7,6 @@
 
 namespace nineinchnick\sync\crud;
 
-
 use netis\utils\crud\UpdateAction;
 use nineinchnick\sync\models\parser\BaseCsvParser;
 use Yii;
@@ -33,7 +32,9 @@ class CsvParserAction extends UpdateAction
     protected function initModel($id)
     {
         $model = parent::initModel($id);
-        $model->parser_class = $this->modelClass;
+        if (!Yii::$app->getRequest()->getIsPost() && is_null($model->columnsOrder)) {
+            $model->columnsOrder = json_encode($model->getDefaultColumns());
+        }
         return $model;
     }
 }

@@ -16,8 +16,6 @@ class BaseXlsParser extends BaseCsvParser
     public $firstCol = 'A';
     public $firstRow = 1;
     public $sheet = 0;
-    public $header = true;
-    public $columnsOrder;
 
     protected $_optionFields = [];
 
@@ -44,23 +42,21 @@ class BaseXlsParser extends BaseCsvParser
             'firstCol' => Yii::t('nineinchnick/sync/models', 'First Column'),
             'firstRow' => Yii::t('nineinchnick/sync/models', 'First Row'),
             'sheet' => Yii::t('nineinchnick/sync/models', 'Sheet'),
-            'header' => Yii::t('nineinchnick/sync/models', 'Header'),
-            'columnsOrder' => Yii::t('nineinchnick/sync/models', 'Columns Order'),
         ]);
     }
 
     /**
-     * @param $uploadedFile
+     * @param string $content
      * @param \nineinchnick\sync\models\ParserConfiguration $parserConfiguration
      * @return array
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
      */
-    public function readXls($uploadedFile, $parserConfiguration)
+    public function readXls($content, $parserConfiguration)
     {
-        $fileName = '/tmp/' . sha1($uploadedFile) . 'xls';
+        $fileName = '/tmp/' . sha1($content) . 'xls';
         touch($fileName);
-        file_put_contents($fileName, $uploadedFile);
+        file_put_contents($fileName, $content);
         $firstRow = !empty($parserConfiguration->firstRow) ? $parserConfiguration->firstRow : 1;
         $firstCol = !empty($parserConfiguration->firstCol) ? $parserConfiguration->firstCol : 'A';
         $sheet = !empty($parserConfiguration->sheet) ? $parserConfiguration->sheet : 0;
@@ -74,47 +70,5 @@ class BaseXlsParser extends BaseCsvParser
         $data = $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow, null, true, true);
         unlink($fileName);
         return $data;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeSave($insert)
-    {
-        parse_str($this->columnsOrder, $columnOrder);
-        $defaultColumns = $this->getDefaultColumns();
-        $this->columnsOrder = [];
-        foreach ($columnOrder as $column) {
-            $this->columnsOrder[$column] = $defaultColumns[$column];
-        }
-        $this->columnsOrder = json_encode($this->columnsOrder);
-        return parent::beforeSave($insert);
-    }
-
-    /**
-     * Get proper index of attribute column
-     *
-     * @param array $fields
-     * @param array $header
-     * @param string $columnsOrder
-     * @return array
-     */
-    protected function prepareAttributes($fields, $header, $columnsOrder)
-    {
-        $attributes = [];
-        $columnsOrder = (array)json_decode($columnsOrder);
-        $columnNames = array_keys($columnsOrder);
-        if ($header !== null) {
-            foreach ($fields as $key => $field) {
-                $attributes[trim($header[$key])] = $field;
-            }
-        } else {
-            foreach ($fields as $key => $field) {
-                if (isset($columnNames[$key])) {
-                    $attributes[$columnNames[$key]] = $field;
-                }
-            }
-        }
-        return $attributes;
     }
 }

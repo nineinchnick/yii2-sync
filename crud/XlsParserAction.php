@@ -24,17 +24,4 @@ class XlsParserAction extends CsvParserAction
      * @var string view name used when rendering a HTML response, defaults to current action id
      */
     public $viewName = 'xlsParser';
-
-    /**
-     * @inheritdoc
-     */
-    protected function initModel($id)
-    {
-        $model = parent::initModel($id);
-        if (!Yii::$app->getRequest()->getIsPost() && is_null($model->columnsOrder)) {
-            $model->columnsOrder = json_encode($model->getDefaultColumns());
-        }
-        return $model;
-    }
-
 }
