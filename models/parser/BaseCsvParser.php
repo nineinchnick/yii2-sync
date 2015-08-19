@@ -124,15 +124,13 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
 
     /**
      * @param string $content
-     * @param BaseCsvParser $parserConfiguration
+     * @param BaseCsvParser $parser
      * @return array
      */
-    public function readCsv($content, $parserConfiguration)
+    public function readCsv($content, $parser)
     {
-        $result = [];
-        foreach (explode("\n", $content) as $line) {
-            $result[] = str_getcsv($line, $parserConfiguration->delimiter, $parserConfiguration->enclosure, $parserConfiguration->escape);
-        }
-        return $result;
+        return array_map(function ($line) use ($parser) {
+            return str_getcsv($line, $parser->delimiter, $parser->enclosure, $parser->escape);
+        }, array_filter(explode("\n", $content)));
     }
 }
