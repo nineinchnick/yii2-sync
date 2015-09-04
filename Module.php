@@ -63,15 +63,17 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
         ], $app->crudModelsMap->data);
         $app->crudModelsMap->data = $array;
 
-        $app->i18n->translations['nineinchnick/sync/*'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => '@nineinchnick/sync/messages',
-            'fileMap' => [
-                'nineinchnick/sync/app' => 'app.php',
-                'nineinchnick/sync/models' => 'models.php',
-            ],
-        ];
+        if (!isset($app->i18n->translations['nineinchnick/sync/*'])) {
+            $app->i18n->translations['nineinchnick/sync/*'] = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en-US',
+                'basePath' => '@nineinchnick/sync/messages',
+                'fileMap' => [
+                    'nineinchnick/sync/app' => 'app.php',
+                    'nineinchnick/sync/models' => 'models.php',
+                ],
+            ];
+        }
     }
 
     public function init()
