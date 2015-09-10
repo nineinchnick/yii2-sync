@@ -1,18 +1,14 @@
 <?php
-/**
- * @author Patryk Radziszewski <pradziszewski@netis.pl>
- * @link http://netis.pl/
- * @copyright Copyright (c) 2015 Netis Sp. z o. o.
- *
- * @var $this \netis\utils\web\View
- * @var $searchModel \yii\base\Model
- * @var $dataProvider yii\data\ActiveDataProvider
- * @var $columns array
- * @var $searchFields array
- * @var $controller netis\utils\crud\ActiveController
- */
 
 use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $columns array */
+/* @var $buttons array each entry is an array with keys: icon, label, url, options */
+/* @var $searchModel \yii\base\Model */
+/* @var $searchFields array*/
+/* @var $controller netis\utils\crud\ActiveController */
 
 $controller = $this->context;
 
@@ -31,8 +27,9 @@ $columns[0]['buttons']['update'] = function ($url, $model) use ($controller) {
 };
 $columns[4]['format'] = 'raw';
 echo $this->renderDefault('index', [
-    'searchModel' => $searchModel,
-    'searchFields' => $searchFields,
     'dataProvider' => $dataProvider,
     'columns' => $columns,
+    'buttons' => $buttons,
+    'searchModel' => $searchModel,
+    'searchFields' => $searchFields,
 ]);
