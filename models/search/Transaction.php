@@ -2,6 +2,7 @@
 
 namespace nineinchnick\sync\models\search;
 
+use netis\utils\db\ActiveSearchInterface;
 use Yii;
 use yii\base\Model;
 use nineinchnick\sync\models\Transaction as TransactionModel;
@@ -9,7 +10,7 @@ use nineinchnick\sync\models\Transaction as TransactionModel;
 /**
  * Transaction represents the model behind the search form about `\nineinchnick\sync\models\Transaction`.
  */
-class Transaction extends TransactionModel
+class Transaction extends TransactionModel implements ActiveSearchInterface
 {
     use \netis\utils\db\ActiveSearchTrait;
 

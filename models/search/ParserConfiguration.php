@@ -7,6 +7,7 @@
 
 namespace nineinchnick\sync\models\search;
 
+use netis\utils\db\ActiveSearchInterface;
 use Yii;
 use yii\base\Model;
 use nineinchnick\sync\models\ParserConfiguration as ParserConfigurationModel;
@@ -14,7 +15,7 @@ use nineinchnick\sync\models\ParserConfiguration as ParserConfigurationModel;
 /**
  * ParserConfiguration represents the model behind the search form about `\nineinchnick\sync\models\ParserConfiguration`.
  */
-class ParserConfiguration extends ParserConfigurationModel
+class ParserConfiguration extends ParserConfigurationModel implements ActiveSearchInterface
 {
     use \netis\utils\db\ActiveSearchTrait;
 

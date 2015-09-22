@@ -2,6 +2,7 @@
 
 namespace nineinchnick\sync\models\search;
 
+use netis\utils\db\ActiveSearchInterface;
 use Yii;
 use yii\base\Model;
 use nineinchnick\sync\models\File as FileModel;
@@ -9,7 +10,7 @@ use nineinchnick\sync\models\File as FileModel;
 /**
  * File represents the model behind the search form about `\nineinchnick\sync\models\File`.
  */
-class File extends FileModel
+class File extends FileModel implements ActiveSearchInterface
 {
     use \netis\utils\db\ActiveSearchTrait;
 
