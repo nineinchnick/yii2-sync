@@ -60,15 +60,28 @@ class BaseXlsParser extends BaseCsvParser
         $firstRow = !empty($parserConfiguration->firstRow) ? $parserConfiguration->firstRow : 1;
         $firstCol = !empty($parserConfiguration->firstCol) ? $parserConfiguration->firstCol : 'A';
         $sheet = !empty($parserConfiguration->sheet) ? $parserConfiguration->sheet : 0;
+
         $inputFileType = \PHPExcel_IOFactory::identify($fileName);
         $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
         $objPHPExcel = $objReader->load($fileName);
-        //  Get worksheet dimensions
-        $sheet = $objPHPExcel->getSheet($sheet);
-        $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
-        $data = $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow, null, true, true);
+        $data = $this->readSheets($objPHPExcel, $sheet, $firstCol, $firstRow);
+
         unlink($fileName);
         return $data;
+    }
+
+    /**
+     * @param \PHPExcel $fileObject
+     * @param int $sheetNumber
+     * @param string $firstCol
+     * @param int $firstRow
+     * @return array
+     */
+    protected function readSheets(\PHPExcel $fileObject, $sheetNumber = 0, $firstCol = 'A', $firstRow = 1)
+    {
+        $sheet = $fileObject->getSheet($sheetNumber);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        return $sheet->rangeToArray($firstCol . $firstRow . ':' . $highestColumn . $highestRow, null, true, true);
     }
 }
