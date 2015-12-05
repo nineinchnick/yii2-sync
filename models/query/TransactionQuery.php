@@ -7,7 +7,7 @@ namespace nineinchnick\sync\models\query;
  *
  * @see \nineinchnick\sync\models\Transaction
  */
-class TransactionQuery extends \netis\utils\db\ActiveQuery
+class TransactionQuery extends \netis\crud\db\ActiveQuery
 {
     /*public function active()
     {

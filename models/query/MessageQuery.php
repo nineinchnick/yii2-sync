@@ -7,7 +7,7 @@ namespace nineinchnick\sync\models\query;
  *
  * @see \nineinchnick\sync\models\Message
  */
-class MessageQuery extends \netis\utils\db\ActiveQuery
+class MessageQuery extends \netis\crud\db\ActiveQuery
 {
     /*public function active()
     {

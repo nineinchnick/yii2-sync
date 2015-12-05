@@ -12,7 +12,7 @@ namespace nineinchnick\sync\models\query;
  *
  * @see \nineinchnick\sync\models\ParserConfiguration
  */
-class ParserConfigurationQuery extends \netis\utils\db\ActiveQuery
+class ParserConfigurationQuery extends \netis\crud\db\ActiveQuery
 {
     /*public function active()
     {

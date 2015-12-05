@@ -13,9 +13,9 @@ use Yii;
 
 /**
  * Combines the \yii\rest\UpdateAction and \yii\rest\CreateAction.
- * @package netis\utils\crud
+ * @package netis\crud\crud
  */
-class TransactionUpdateAction extends \netis\utils\crud\UpdateAction
+class TransactionUpdateAction extends \netis\crud\crud\UpdateAction
 {
     /**
      * @inheritdoc

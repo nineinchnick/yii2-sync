@@ -24,7 +24,7 @@ use yii\web\UploadedFile;
  * @property \app\models\User $editor
  * @property ParserConfiguration $parserConfiguration
  */
-class Transaction extends \netis\utils\crud\ActiveRecord
+class Transaction extends \netis\crud\db\ActiveRecord
 {
     /**
      * @var UploadedFile[]
@@ -81,7 +81,7 @@ class Transaction extends \netis\utils\crud\ActiveRecord
     {
         return array_merge(parent::behaviors(), [
             'labels' => [
-                'class' => 'netis\utils\db\LabelsBehavior',
+                'class' => 'netis\crud\db\LabelsBehavior',
                 'attributes' => ['id'],
                 'crudLabels' => [
                     'default'  => Yii::t('nineinchnick/sync/models', 'Transaction'),
@@ -98,12 +98,12 @@ class Transaction extends \netis\utils\crud\ActiveRecord
                 ],
             ],
             'blameable' => [
-                'class' => 'netis\utils\db\BlameableBehavior',
+                'class' => 'netis\crud\db\BlameableBehavior',
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'editor_id',
             ],
             'timestamp' => [
-                'class' => 'netis\utils\db\TimestampBehavior',
+                'class' => 'netis\crud\db\TimestampBehavior',
                 'updatedAtAttribute' => 'updated_on',
                 'createdAtAttribute' => 'created_on',
             ],

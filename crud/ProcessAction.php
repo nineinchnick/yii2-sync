@@ -6,7 +6,7 @@
 
 namespace nineinchnick\sync\crud;
 
-use netis\utils\crud\Action;
+use netis\crud\crud\Action;
 use nineinchnick\sync\models\File;
 use nineinchnick\sync\models\Message;
 use Yii;

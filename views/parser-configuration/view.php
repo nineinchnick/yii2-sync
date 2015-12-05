@@ -4,12 +4,12 @@
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  *
- * @var $this \netis\utils\web\View
+ * @var $this \netis\crud\web\View
  * @var $searchModel \yii\base\Model
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $columns array
  * @var $searchFields array
- * @var $controller netis\utils\crud\ActiveController
+ * @var $controller netis\crud\crud\ActiveController
  */
 
 $attributes['parser_options']['format'] = 'raw';

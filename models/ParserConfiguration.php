@@ -28,7 +28,7 @@ use yii\base\NotSupportedException;
  * @property \app\models\User $editor
  * @property Transaction[] $transactions
  */
-class ParserConfiguration extends \netis\utils\crud\ActiveRecord
+class ParserConfiguration extends \netis\crud\db\ActiveRecord
 {
     protected $_mainAttributes = ['name', 'parser_class', 'parser_options'];
 
@@ -83,7 +83,7 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
     {
         return array_merge(parent::behaviors(), [
             'labels' => [
-                'class' => 'netis\utils\db\LabelsBehavior',
+                'class' => 'netis\crud\db\LabelsBehavior',
                 'attributes' => ['name'],
                 'crudLabels' => [
                     'default' => Yii::t('nineinchnick/sync/models', 'Parser Configuration'),
@@ -96,16 +96,16 @@ class ParserConfiguration extends \netis\utils\crud\ActiveRecord
                 ],
             ],
             'toggable' => [
-                'class' => 'netis\utils\db\ToggableBehavior',
+                'class' => 'netis\crud\db\ToggableBehavior',
                 'disabledAttribute' => 'is_disabled',
             ],
             'blameable' => [
-                'class' => 'netis\utils\db\BlameableBehavior',
+                'class' => 'netis\crud\db\BlameableBehavior',
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'editor_id',
             ],
             'timestamp' => [
-                'class' => 'netis\utils\db\TimestampBehavior',
+                'class' => 'netis\crud\db\TimestampBehavior',
                 'updatedAtAttribute' => 'updated_on',
                 'createdAtAttribute' => 'created_on',
             ],

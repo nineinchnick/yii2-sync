@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  *
  * @var $this yii\web\View
- * @var $model \netis\utils\crud\ActiveRecord
+ * @var $model \netis\crud\db\ActiveRecord
  * @var $fields array
  * @var $relations array
- * @var $controller \netis\utils\crud\ActiveController
+ * @var $controller \netis\crud\crud\ActiveController
  */
 use yii\helpers\Html;
 
@@ -24,9 +24,9 @@ $this->params['menu'] = $controller->getMenu($controller->action, $model);
 
     <h1><span><?= Html::encode($this->title) ?></span></h1>
 
-<?= netis\utils\web\Alerts::widget() ?>
+<?= netis\crud\web\Alerts::widget() ?>
 
-<?php if ($model->scenario === \netis\utils\crud\ActiveRecord::SCENARIO_CREATE): ?>
+<?php if ($model->scenario === \netis\crud\db\ActiveRecord::SCENARIO_CREATE): ?>
     <ul class="list-group col-md-3">
         <?php foreach ($controller->actionsClassMap as $action => $params): ?>
             <li class="list-group-item">

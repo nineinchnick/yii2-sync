@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $buttons array each entry is an array with keys: icon, label, url, options */
 /* @var $searchModel \yii\base\Model */
 /* @var $searchFields array*/
-/* @var $controller netis\utils\crud\ActiveController */
+/* @var $controller netis\crud\crud\ActiveController */
 
 $controller = $this->context;
 

@@ -17,7 +17,7 @@ use nineinchnick\sync\models\query\MessageQuery;
  * @property File $file
  * @property Transaction $transaction
  */
-class Message extends \netis\utils\crud\ActiveRecord
+class Message extends \netis\crud\db\ActiveRecord
 {
     const TYPE_INFO = 0;
     const TYPE_NOTICE = 1;
@@ -64,7 +64,7 @@ class Message extends \netis\utils\crud\ActiveRecord
     {
         return array_merge(parent::behaviors(), [
             'labels' => [
-                'class' => 'netis\utils\db\LabelsBehavior',
+                'class' => 'netis\crud\db\LabelsBehavior',
                 'attributes' => ['id'],
                 'crudLabels' => [
                     'default'  => Yii::t('nineinchnick/sync/models', 'Message'),

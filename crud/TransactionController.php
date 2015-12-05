@@ -7,10 +7,10 @@
 
 namespace nineinchnick\sync\crud;
 
-use netis\utils\crud\Action;
-use netis\utils\crud\ActiveRecord;
+use netis\crud\crud\Action;
+use netis\crud\db\ActiveRecord;
 
-class TransactionController extends \netis\utils\crud\ActiveController
+class TransactionController extends \netis\crud\crud\ActiveController
 {
     /**
      * @param Action $action

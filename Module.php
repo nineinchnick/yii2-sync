@@ -14,7 +14,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     {
         return [
             'parser-configuration' => [
-                'class' => 'netis\utils\crud\ActiveController',
+                'class' => 'netis\crud\crud\ActiveController',
                 'modelClass' => 'nineinchnick\sync\models\ParserConfiguration',
                 'searchModelClass' => 'nineinchnick\sync\models\search\ParserConfiguration',
                 'actionsClassMap' => [
@@ -38,7 +38,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 ],
             ],
             'file' => [
-                'class' => 'netis\utils\crud\ActiveController',
+                'class' => 'netis\crud\crud\ActiveController',
                 'modelClass' => 'nineinchnick\sync\models\File',
                 'searchModelClass' => 'nineinchnick\sync\models\search\File',
                 'actionsClassMap' => [
@@ -46,7 +46,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 ],
             ],
             'message' => [
-                'class' => 'netis\utils\crud\ActiveController',
+                'class' => 'netis\crud\crud\ActiveController',
                 'modelClass' => 'nineinchnick\sync\models\Message',
                 'searchModelClass' => 'nineinchnick\sync\models\search\Message',
             ],
@@ -83,7 +83,7 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
         $this->controllerMap = array_merge($this->getDefaultControllerMap(), $this->controllerMap);
 
         $fileFields = function ($action, $context, $model) {
-            /** @var $action \netis\utils\crud\Action */
+            /** @var $action \netis\crud\crud\Action */
             $fields = $action::getDefaultFields($model);
             foreach ($fields as $key => $field) {
                 if ($field !== 'content') {

@@ -4,7 +4,7 @@
  * @link http://netis.pl/
  * @copyright Copyright (c) 2015 Netis Sp. z o. o.
  *
- * @var \netis\utils\web\View $this
+ * @var \netis\crud\web\View $this
  */
 
 use yii\helpers\Html;

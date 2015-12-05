@@ -35,7 +35,7 @@ use nineinchnick\sync\models\query\FileQuery;
  * @property Transaction $transaction
  * @property Message[] $messages
  */
-class File extends \netis\utils\crud\ActiveRecord
+class File extends \netis\crud\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -93,7 +93,7 @@ class File extends \netis\utils\crud\ActiveRecord
     {
         return array_merge(parent::behaviors(), [
             'labels' => [
-                'class' => 'netis\utils\db\LabelsBehavior',
+                'class' => 'netis\crud\db\LabelsBehavior',
                 'attributes' => ['url'],
                 'crudLabels' => [
                     'default'  => Yii::t('nineinchnick/sync/models', 'File'),
@@ -106,12 +106,12 @@ class File extends \netis\utils\crud\ActiveRecord
                 ],
             ],
             'blameable' => [
-                'class' => 'netis\utils\db\BlameableBehavior',
+                'class' => 'netis\crud\db\BlameableBehavior',
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'editor_id',
             ],
             'timestamp' => [
-                'class' => 'netis\utils\db\TimestampBehavior',
+                'class' => 'netis\crud\db\TimestampBehavior',
                 'updatedAtAttribute' => 'updated_on',
                 'createdAtAttribute' => 'created_on',
             ],

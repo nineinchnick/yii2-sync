@@ -17,7 +17,7 @@
     "require": {
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
-        "netis/yii2-utils": "dev-master",
+        "netis/yii2-crud": "*",
         "phpoffice/phpexcel": "1.8.*",
         "yiisoft/yii2-jui": "2.0.*"
     },

@@ -7,7 +7,7 @@ namespace nineinchnick\sync\models\query;
  *
  * @see \nineinchnick\sync\models\File
  */
-class FileQuery extends \netis\utils\db\ActiveQuery
+class FileQuery extends \netis\crud\db\ActiveQuery
 {
     /*public function active()
     {

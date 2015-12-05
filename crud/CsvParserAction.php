@@ -7,7 +7,7 @@
 
 namespace nineinchnick\sync\crud;
 
-use netis\utils\crud\UpdateAction;
+use netis\crud\crud\UpdateAction;
 use nineinchnick\sync\models\parser\BaseCsvParser;
 use Yii;
 
