@@ -197,4 +197,17 @@ class File extends \netis\crud\db\ActiveRecord
     {
         return new FileQuery(get_called_class());
     }
+
+    public function getPreviousFile()
+    {
+        return self::find()
+            ->innerJoinWith('transaction')
+            ->where('transaction.parser_id = :parser_id AND t.id != :id', [
+                ':parser_id' => $this->transaction->parser_id,
+                ':id' => $this->id,
+            ])
+            ->orderBy('id DESC')
+            ->limit(1)
+            ->one();
+    }
 }
