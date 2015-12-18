@@ -202,11 +202,11 @@ class File extends \netis\crud\db\ActiveRecord
     {
         return self::find()
             ->innerJoinWith('transaction')
-            ->where('transaction.parser_id = :parser_id AND t.id != :id', [
+            ->where('"sync"."transactions".parser_id = :parser_id AND "sync"."files".id != :id', [
                 ':parser_id' => $this->transaction->parser_id,
                 ':id' => $this->id,
             ])
-            ->orderBy('id DESC')
+            ->orderBy('"sync"."files".id DESC')
             ->limit(1)
             ->one();
     }
