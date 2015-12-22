@@ -202,7 +202,7 @@ class File extends \netis\crud\db\ActiveRecord
     {
         return self::find()
             ->innerJoinWith('transaction')
-            ->where('"sync"."transactions".parser_id = :parser_id AND "sync"."files".id != :id', [
+            ->where('"sync"."transactions".parser_id = :parser_id AND "sync"."files".id IS DISTINCT FROM :id', [
                 ':parser_id' => $this->transaction->parser_id,
                 ':id' => $this->id,
             ])
