@@ -74,7 +74,7 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
             $file->sent_on = date('Y-m-d H:i:s');
             $file->save(false);
         }
-        return true;
+        return $file;
     }
 
     /**
