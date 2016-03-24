@@ -133,4 +133,13 @@ class BaseCsvParser extends \nineinchnick\sync\models\ParserConfiguration
             return str_getcsv($line, $parser->delimiter, $parser->enclosure, $parser->escape);
         }, array_filter(explode("\n", $content)));
     }
+
+    /**
+     * Static map of columns order
+     * @return array
+     */
+    public function getDefaultColumns()
+    {
+        return [];
+    }
 }
