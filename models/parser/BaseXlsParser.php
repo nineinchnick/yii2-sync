@@ -63,7 +63,9 @@ class BaseXlsParser extends BaseCsvParser
 
         $inputFileType = \PHPExcel_IOFactory::identify($fileName);
         $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        $objReader->setReadDataOnly(true);
         $objPHPExcel = $objReader->load($fileName);
+
         $data = $this->readSheets($objPHPExcel, $sheet, $firstCol, $firstRow);
 
         unlink($fileName);
