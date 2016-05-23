@@ -32,6 +32,7 @@ use nineinchnick\sync\models\query\FileQuery;
  * @property \app\models\User $editor
  * @property File $request
  * @property File $response
+ * @property File $previousFile
  * @property Transaction $transaction
  * @property Message[] $messages
  */
